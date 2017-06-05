@@ -30,7 +30,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <copyright>$copyright$</copyright>
-    <releaseNotes>Initial release</releaseNotes>
+    <releaseNotes>Exception type for premature terminated JSON strings fixed</releaseNotes>
     <tags>JSON eduVPN</tags>
   </metadata>
 </package>
