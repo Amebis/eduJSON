@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+    Copyright 2017 Amebis
+
+    This file is part of eduJSON.
+
+    eduJSON is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    eduJSON is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with eduJSON. If not, see <http://www.gnu.org/licenses/>.
+-->
+<package >
+  <metadata>
+    <id>Amebis.eduVPN.$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/Amebis/eduJSON/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Amebis/eduJSON</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>JSON eduVPN</tags>
+  </metadata>
+</package>
