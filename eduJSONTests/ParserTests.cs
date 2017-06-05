@@ -18,6 +18,7 @@
 */
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 
 namespace eduJSON.Tests
@@ -59,6 +60,55 @@ namespace eduJSON.Tests
                     { "k1", "test1" },
                     { "k2", "test2" }
                 }, (Dictionary<string, object>)obj_dict["key3"], "Child element mismatch");
-       }
+
+            // Test issues.
+            try
+            {
+                Parser.Parse("   false\r\nTrailing data");
+                Assert.Fail("Trailing JSON data tolerated");
+            } catch (ArgumentException) {}
+            try
+            {
+                Parser.Parse("abc");
+                Assert.Fail("Unknown JSON value tolerated");
+            }
+            catch (ArgumentException) { }
+            try
+            {
+                Parser.Parse("[1, 2");
+                Assert.Fail("Missing \"[\" parenthesis tolerated");
+            }
+            catch (ArgumentException) { }
+            try
+            {
+                Parser.Parse("[1 2]");
+                Assert.Fail("Missing separator tolerated");
+            }
+            catch (ArgumentException) { }
+            try
+            {
+                Parser.Parse("{ \"k1\": 1, \"k2\": 2");
+                Assert.Fail("Missing \"}\" parenthesis tolerated");
+            }
+            catch (ArgumentException) { }
+            try
+            {
+                Parser.Parse("{ \"k1\": 1 \"k2\": 2 }");
+                Assert.Fail("Missing separator tolerated");
+            }
+            catch (ArgumentException) { }
+            try
+            {
+                Parser.Parse("{ \"k1\": 1, $$$: 2 }");
+                Assert.Fail("Invalid identifier tolerated");
+            }
+            catch (ArgumentException) { }
+            try
+            {
+                Parser.Parse("{ \"k1\": 1, \"k1\": 2 }");
+                Assert.Fail("Duplicate key tolerated");
+            }
+            catch (ArgumentException) { }
+        }
     }
 }
