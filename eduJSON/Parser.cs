@@ -44,7 +44,6 @@ namespace eduJSON
 
             // Skip trailing spaces and comments.
             SkipSpace(str, ref idx);
-
             if (idx < str.Length)
             {
                 // Trailing data found.
@@ -106,7 +105,7 @@ namespace eduJSON
                             // Skip leading spaces and comments.
                             SkipSpace(str, ref idx);
 
-                            if (str[idx] == ']')
+                            if (idx < str.Length && str[idx] == ']')
                             {
                                 // This is the end.
                                 idx++;
@@ -121,7 +120,7 @@ namespace eduJSON
                                 // Skip trailing spaces and comments.
                                 SkipSpace(str, ref idx);
 
-                                if (str[idx] == ',')
+                                if (idx < str.Length && str[idx] == ',')
                                 {
                                     // A separator has been found. Skip it.
                                     idx++;
@@ -149,7 +148,7 @@ namespace eduJSON
                             // Skip leading spaces and comments.
                             SkipSpace(str, ref idx);
 
-                            if (str[idx] == '}')
+                            if (idx < str.Length && str[idx] == '}')
                             {
                                 // This is the end.
                                 idx++;
@@ -167,7 +166,7 @@ namespace eduJSON
                                     // Skip trailing spaces and comments.
                                     SkipSpace(str, ref idx);
 
-                                    if (str[idx] == ':')
+                                    if (idx < str.Length && str[idx] == ':')
                                     {
                                         // An key:value separator found.
                                         idx++;
@@ -182,7 +181,7 @@ namespace eduJSON
                                         // Skip trailing spaces and comments.
                                         SkipSpace(str, ref idx);
 
-                                        if (str[idx] == ',')
+                                        if (idx < str.Length && str[idx] == ',')
                                         {
                                             // A separator has been found. Skip it.
                                             idx++;

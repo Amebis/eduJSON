@@ -33,9 +33,6 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <DocumentationFile>bin\Release\eduJSON.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
