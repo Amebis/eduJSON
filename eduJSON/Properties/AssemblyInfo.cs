@@ -1,8 +1,9 @@
-﻿/*
-    eduJSON - A Lightweight JSON Parser for eduVPN (and beyond)
+﻿using System.Resources;
+/*
+eduJSON - A Lightweight JSON Parser for eduVPN (and beyond)
 
-    Copyright: 2017, The Commons Conservancy eduVPN Programme
-    SPDX-License-Identifier: GPL-3.0+
+Copyright: 2017, The Commons Conservancy eduVPN Programme
+SPDX-License-Identifier: GPL-3.0+
 */
 
 using System.Reflection;
@@ -20,6 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © Amebis 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: NeutralResourcesLanguage("en-US")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
