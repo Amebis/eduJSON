@@ -1,4 +1,11 @@
-﻿using System.Reflection;
+﻿/*
+    eduJSON - A Lightweight JSON Parser for eduVPN (and beyond)
+
+    Copyright: 2017, The Commons Conservancy eduVPN Programme
+    SPDX-License-Identifier: GPL-3.0+
+*/
+
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -9,7 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("A Lightweight JSON Parser")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Amebis")]
-[assembly: AssemblyProduct("eduJSON")]
+[assembly: AssemblyProduct("eduVPN")]
 [assembly: AssemblyCopyright("Copyright © Amebis 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -32,5 +39,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.1.0")]
-[assembly: AssemblyFileVersion("1.0.1.0")]
+[assembly: AssemblyVersion("1.0.2.0")]
+[assembly: AssemblyFileVersion("1.0.2.0")]
