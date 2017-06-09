@@ -59,9 +59,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\eduJSON\eduJSON-net45.csproj">
-      <Project>{cab91949-a2da-449d-b0a9-62ce1af21d66}</Project>
-      <Name>eduJSON-net45</Name>
+    <ProjectReference Include="..\eduJSON\eduJSON.csproj">
+      <Project>{8f4c3f22-1988-4077-9220-ed2512fc0248}</Project>
+      <Name>eduJSON</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
