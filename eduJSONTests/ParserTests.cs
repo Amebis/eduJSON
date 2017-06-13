@@ -77,37 +77,43 @@ namespace eduJSON.Tests
                 Parser.Parse("[1, 2");
                 Assert.Fail("Missing \"[\" parenthesis tolerated");
             }
-            catch (ArgumentException) { }
+            catch (MissingClosingParenthesisException) { }
             try
             {
                 Parser.Parse("[1 2]");
                 Assert.Fail("Missing separator tolerated");
             }
-            catch (ArgumentException) { }
+            catch (MissingSeparatorOrClosingParenthesisException) { }
             try
             {
                 Parser.Parse("{ \"k1\": 1, \"k2\": 2");
                 Assert.Fail("Missing \"}\" parenthesis tolerated");
             }
-            catch (ArgumentException) { }
+            catch (MissingClosingParenthesisException) { }
             try
             {
                 Parser.Parse("{ \"k1\": 1 \"k2\": 2 }");
                 Assert.Fail("Missing separator tolerated");
             }
-            catch (ArgumentException) { }
+            catch (MissingSeparatorOrClosingParenthesisException) { }
+            try
+            {
+                Parser.Parse("{ \"key\"  \"value\" }");
+                Assert.Fail("Missing separator tolerated");
+            }
+            catch (MissingSeparatorException) { }
             try
             {
                 Parser.Parse("{ \"k1\": 1, $$$: 2 }");
                 Assert.Fail("Invalid identifier tolerated");
             }
-            catch (ArgumentException) { }
+            catch (InvalidIdentifier) { }
             try
             {
                 Parser.Parse("{ \"k1\": 1, \"k1\": 2 }");
-                Assert.Fail("Duplicate key tolerated");
+                Assert.Fail("Duplicate element tolerated");
             }
-            catch (ArgumentException) { }
+            catch (DuplicateElementException) { }
         }
 
         [TestMethod()]
@@ -117,13 +123,13 @@ namespace eduJSON.Tests
             {
                 Parser.Parse("   false\r\nTrailing data");
                 Assert.Fail("Trailing JSON data tolerated");
-            } catch (ArgumentException) {}
+            } catch (TrailingDataException) {}
             try
             {
                 Parser.Parse("abc");
                 Assert.Fail("Unknown JSON value tolerated");
             }
-            catch (ArgumentException) { }
+            catch (UnknownValueException) { }
         }
     }
 }

@@ -24,6 +24,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DuplicateElementException.cs" />
+    <Compile Include="JSONException.cs" />
+    <Compile Include="MissingSeparatorOrClosingParenthesisException.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -31,6 +34,11 @@
     </Compile>
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="InvalidIdentifierException.cs" />
+    <Compile Include="MissingSeparatorException.cs" />
+    <Compile Include="TrailingDataException.cs" />
+    <Compile Include="MissingClosingParenthesisException.cs" />
+    <Compile Include="UnknownValueException.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

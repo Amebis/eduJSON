@@ -33,10 +33,7 @@ namespace eduJSON
             // Skip trailing spaces and comments.
             SkipSpace(str, ref idx);
             if (idx < str.Length)
-            {
-                // Trailing data found.
-                throw new ArgumentException(String.Format(Resources.ErrorTrailingData, GetShortened(str, idx)), "str");
-            }
+                throw new TrailingDataException(str, idx);
 
             return obj;
         }
@@ -118,10 +115,10 @@ namespace eduJSON
                                     has_separator = false;
                             }
                             else
-                                throw new ArgumentException(String.Format(Resources.ErrorMissingSeparatorOrClosingParenthesis, GetShortened(str, idx), "]"), "str");
+                                throw new MissingSeparatorOrClosingParenthesisException("]", str, idx);
                         }
 
-                        throw new ArgumentException(String.Format(Resources.ErrorMissingClosingParenthesis, GetShortened(str, startat_origin), "]"), "str");
+                        throw new MissingClosingParenthesisException("]", str, startat_origin);
                     }
 
                 case '{':
@@ -149,7 +146,7 @@ namespace eduJSON
                                 {
                                     // An element key has been found.
                                     if (obj.ContainsKey((string)key))
-                                        throw new ArgumentException(String.Format(Resources.ErrorDuplicateElement, (string)key), "str");
+                                        throw new DuplicateElementException((string)key, str, idx);
 
                                     // Skip trailing spaces and comments.
                                     SkipSpace(str, ref idx);
@@ -179,19 +176,19 @@ namespace eduJSON
                                             has_separator = false;
                                     }
                                     else
-                                        throw new ArgumentException(String.Format(Resources.ErrorMissingSeparator, GetShortened(str, idx)), "str");
+                                        throw new MissingSeparatorException(str, idx);
                                 }
                                 else
-                                    throw new ArgumentException(String.Format(Resources.ErrorInvalidIdentifier, GetShortened(str, idx)), "str");
+                                    throw new InvalidIdentifier(str, idx);
                             }
                             else
-                                throw new ArgumentException(String.Format(Resources.ErrorMissingSeparatorOrClosingParenthesis, GetShortened(str, idx), "}"), "str");
+                                throw new MissingSeparatorOrClosingParenthesisException("}", str, idx);
                         }
-                        throw new ArgumentException(String.Format(Resources.ErrorMissingClosingParenthesis, GetShortened(str, startat_origin), "}"), "str");
+                        throw new MissingClosingParenthesisException("}", str, startat_origin);
                     }
             }
 
-            throw new ArgumentException(String.Format(Resources.ErrorUnknownValue, GetShortened(str, idx)), "str");
+            throw new UnknownValueException(str, idx);
         }
 
         /// <summary>
@@ -518,18 +515,6 @@ namespace eduJSON
                 else
                     break;
             }
-        }
-
-        /// <summary>
-        /// Returns maximum 20 characters of the input string from given location.
-        /// If remainder of the string is longer than 20 characters, 19 characters are kept with horizontal ellipsis appended.
-        /// </summary>
-        /// <param name="str">The input string</param>
-        /// <param name="idx">Starting index in <paramref name="str"/></param>
-        /// <returns>Truncated string</returns>
-        protected static string GetShortened(string str, int idx)
-        {
-            return str.Length < idx + 20 ? str.Substring(idx) : str.Substring(idx, 19) + "…";
         }
     }
 }

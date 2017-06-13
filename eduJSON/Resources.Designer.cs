@@ -70,7 +70,7 @@ namespace eduJSON {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid element name &quot;{0}&quot; found..
+        ///   Looks up a localized string similar to Invalid element name found..
         /// </summary>
         internal static string ErrorInvalidIdentifier {
             get {
@@ -79,7 +79,7 @@ namespace eduJSON {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;{0}&quot; has no matching &quot;{1}&quot;..
+        ///   Looks up a localized string similar to Missing &quot;{0}&quot; parenthesis..
         /// </summary>
         internal static string ErrorMissingClosingParenthesis {
             get {
@@ -88,7 +88,7 @@ namespace eduJSON {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing &quot;:&quot; before &quot;{0}&quot;..
+        ///   Looks up a localized string similar to Missing &quot;:&quot; separator..
         /// </summary>
         internal static string ErrorMissingSeparator {
             get {
@@ -97,7 +97,7 @@ namespace eduJSON {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing &quot;,&quot; or &quot;{1}&quot; before &quot;{0}&quot;..
+        ///   Looks up a localized string similar to Missing &quot;,&quot; separator or &quot;{0}&quot; parenthesis..
         /// </summary>
         internal static string ErrorMissingSeparatorOrClosingParenthesis {
             get {
@@ -106,7 +106,7 @@ namespace eduJSON {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unexpected trailing data &quot;{0}&quot; found..
+        ///   Looks up a localized string similar to Unexpected trailing data found..
         /// </summary>
         internal static string ErrorTrailingData {
             get {
@@ -115,7 +115,7 @@ namespace eduJSON {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown value &quot;{0}&quot; found..
+        ///   Looks up a localized string similar to Unknown value found..
         /// </summary>
         internal static string ErrorUnknownValue {
             get {

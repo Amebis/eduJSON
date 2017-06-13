@@ -1,10 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!--
-    eduJSON - A Lightweight JSON Parser for eduVPN (and beyond)
-
-    Copyright: 2017, The Commons Conservancy eduVPN Programme
-    SPDX-License-Identifier: GPL-3.0+
--->
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,32 +112,30 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrorDuplicateElement" xml:space="preserve">
     <value>Duplicate element name "{0}" found.</value>
   </data>
   <data name="ErrorInvalidIdentifier" xml:space="preserve">
-    <value>Invalid element name "{0}" found.</value>
+    <value>Invalid element name found.</value>
   </data>
   <data name="ErrorMissingClosingParenthesis" xml:space="preserve">
-    <value>"{0}" has no matching "{1}".</value>
-    <comment>{1} expands to either "]" or "}"</comment>
+    <value>Missing "{0}" parenthesis.</value>
   </data>
   <data name="ErrorMissingSeparator" xml:space="preserve">
-    <value>Missing ":" before "{0}".</value>
+    <value>Missing ":" separator.</value>
   </data>
   <data name="ErrorMissingSeparatorOrClosingParenthesis" xml:space="preserve">
-    <value>Missing "," or "{1}" before "{0}".</value>
-    <comment>{1} expands to either "]" or "}"</comment>
+    <value>Missing "," separator or "{0}" parenthesis.</value>
   </data>
   <data name="ErrorTrailingData" xml:space="preserve">
-    <value>Unexpected trailing data "{0}" found.</value>
+    <value>Unexpected trailing data found.</value>
   </data>
   <data name="ErrorUnknownValue" xml:space="preserve">
-    <value>Unknown value "{0}" found.</value>
+    <value>Unknown value found.</value>
   </data>
 </root>
