@@ -123,8 +123,14 @@
   <data name="ErrorInvalidIdentifier" xml:space="preserve">
     <value>Invalid element name found.</value>
   </data>
+  <data name="ErrorInvalidParameterType" xml:space="preserve">
+    <value>Unexpected parameter type (expected: {0}, received: {1}).</value>
+  </data>
   <data name="ErrorMissingClosingParenthesis" xml:space="preserve">
     <value>Missing "{0}" parenthesis.</value>
+  </data>
+  <data name="ErrorMissingParameter" xml:space="preserve">
+    <value>A required parameter is missing.</value>
   </data>
   <data name="ErrorMissingSeparator" xml:space="preserve">
     <value>Missing ":" separator.</value>

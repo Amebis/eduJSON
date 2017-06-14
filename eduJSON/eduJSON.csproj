@@ -25,8 +25,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DuplicateElementException.cs" />
+    <Compile Include="InvalidParameterTypeException.cs" />
     <Compile Include="JSONException.cs" />
+    <Compile Include="MissingParameterException.cs" />
     <Compile Include="MissingSeparatorOrClosingParenthesisException.cs" />
+    <Compile Include="ParameterException.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

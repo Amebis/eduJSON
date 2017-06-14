@@ -79,11 +79,29 @@ namespace eduJSON {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unexpected parameter type (expected: {0}, received: {1})..
+        /// </summary>
+        internal static string ErrorInvalidParameterType {
+            get {
+                return ResourceManager.GetString("ErrorInvalidParameterType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing &quot;{0}&quot; parenthesis..
         /// </summary>
         internal static string ErrorMissingClosingParenthesis {
             get {
                 return ResourceManager.GetString("ErrorMissingClosingParenthesis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A required parameter is missing..
+        /// </summary>
+        internal static string ErrorMissingParameter {
+            get {
+                return ResourceManager.GetString("ErrorMissingParameter", resourceCulture);
             }
         }
         
