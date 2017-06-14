@@ -527,8 +527,7 @@ namespace eduJSON
         /// <returns><c>true</c> when <paramref name="name"/> found; <c>false</c> otherwise; throws when <paramref name="name"/> not of type <typeparamref name="T"/>.</returns>
         public static bool GetValue<T>(Dictionary<string, object> dict, string name, out T value)
         {
-            object obj;
-            if (!dict.TryGetValue(name, out obj))
+            if (!dict.TryGetValue(name, out object obj))
             {
                 value = default(T);
                 return false;
@@ -550,8 +549,7 @@ namespace eduJSON
         /// <returns>The value; or throws when <paramref name="name"/> not found in <paramref name="dict"/> or not of type <typeparamref name="T"/>.</returns>
         public static T GetValue<T>(Dictionary<string, object> dict, string name)
         {
-            object obj;
-            if (!dict.TryGetValue(name, out obj))
+            if (!dict.TryGetValue(name, out object obj))
                 throw new MissingParameterException(name);
 
             if (obj.GetType() != typeof(T))
