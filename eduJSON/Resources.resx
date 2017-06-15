@@ -120,11 +120,19 @@
   <data name="ErrorDuplicateElement" xml:space="preserve">
     <value>Duplicate element name "{0}" found.</value>
   </data>
+  <data name="ErrorExpectedReceived" xml:space="preserve">
+    <value>{0} (expected: {1}, received: {2})</value>
+    <comment>{0}=A sentence explaining an error, {1}=expected value, {2}=received value</comment>
+  </data>
   <data name="ErrorInvalidIdentifier" xml:space="preserve">
     <value>Invalid element name found.</value>
   </data>
   <data name="ErrorInvalidParameterType" xml:space="preserve">
-    <value>Unexpected parameter type (expected: {0}, received: {1}).</value>
+    <value>Unexpected parameter type.</value>
+  </data>
+  <data name="ErrorJSONCode" xml:space="preserve">
+    <value>{0} JSON: {1}</value>
+    <comment>{0}=A sentence explaining an error, {1}=JSON source code</comment>
   </data>
   <data name="ErrorMissingClosingParenthesis" xml:space="preserve">
     <value>Missing "{0}" parenthesis.</value>
@@ -137,6 +145,10 @@
   </data>
   <data name="ErrorMissingSeparatorOrClosingParenthesis" xml:space="preserve">
     <value>Missing "," separator or "{0}" parenthesis.</value>
+  </data>
+  <data name="ErrorParameter" xml:space="preserve">
+    <value>{0} (parameter name: {1})</value>
+    <comment>{0}=A sentence explaining an error, {1}=parameter name</comment>
   </data>
   <data name="ErrorTrailingData" xml:space="preserve">
     <value>Unexpected trailing data found.</value>

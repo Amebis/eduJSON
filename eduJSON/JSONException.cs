@@ -17,28 +17,74 @@ namespace eduJSON
     [Serializable]
     public class JSONException : ApplicationException
     {
-        public JSONException()
+        #region Properties
+
+        /// <summary>
+        /// Gets the error message and the JSON code, or only the error message if no code is set.
+        /// </summary>
+        public override string Message => Code != null ? String.Format(Resources.ErrorJSONCode, base.Message, Code) : base.Message;
+
+        /// <summary>
+        /// JSON code that caused the problem
+        /// </summary>
+        public string Code { get; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        public JSONException() :
+            base()
         { }
 
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
         public JSONException(string message) :
             base(message)
         { }
 
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="innerException">Inner exception</param>
         public JSONException(string message, Exception innerException) :
             base(message, innerException)
         { }
 
-        public JSONException(string message, string code, int idx) :
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="code">JSON code</param>
+        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        public JSONException(string message, string code, int start) :
             base(message)
         {
-            Code = code.Length < idx + 20 ? code.Substring(idx) : code.Substring(idx, 19) + "…";
+            Code = code.Length < start + 20 ? code.Substring(start) : code.Substring(start, 19) + "…";
         }
 
-        public JSONException(string message, string code, int idx, Exception innerException) :
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="code">JSON code</param>
+        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        /// <param name="innerException">Inner exception</param>
+        public JSONException(string message, string code, int start, Exception innerException) :
             base(message, innerException)
         {
-            Code = code.Length < idx + 20 ? code.Substring(idx) : code.Substring(idx, 19) + "…";
+            Code = code.Length < start + 20 ? code.Substring(start) : code.Substring(start, 19) + "…";
         }
+
+        #endregion
+
+        #region ISerializable Support
 
         protected JSONException(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -53,14 +99,6 @@ namespace eduJSON
             info.AddValue("Code", Code);
         }
 
-        /// <summary>
-        /// Gets the error message and the JSON code, or only the error message if no code is set.
-        /// </summary>
-        public override string Message => Code != null ? String.Format("{0} - {1}", base.Message, Code) : base.Message;
-
-        /// <summary>
-        /// JSON code that caused the problem
-        /// </summary>
-        public string Code { get; }
+        #endregion
     }
 }

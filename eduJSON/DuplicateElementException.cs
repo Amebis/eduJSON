@@ -17,17 +17,44 @@ namespace eduJSON
     [Serializable]
     public class DuplicateElementException : JSONException
     {
+        #region Properties
+
+        /// <summary>
+        /// Element name
+        /// </summary>
+        public string ElementName { get; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="name">Element name</param>
+        /// <param name="code">JSON code</param>
+        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public DuplicateElementException(string name, string code, int start) :
-            base(String.Format(Resources.ErrorDuplicateElement, name), code, start)
+            this(String.Format(Resources.ErrorDuplicateElement, name), name, code, start)
         {
-            ElementName = name;
         }
 
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="name">Element name</param>
+        /// <param name="code">JSON code</param>
+        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public DuplicateElementException(string message, string name, string code, int start) :
             base(message, code, start)
         {
             ElementName = name;
         }
+
+        #endregion
+
+        #region ISerializable Support
 
         protected DuplicateElementException(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -42,9 +69,6 @@ namespace eduJSON
             info.AddValue("ElementName", ElementName);
         }
 
-        /// <summary>
-        /// Missing closing name
-        /// </summary>
-        public string ElementName { get; }
+        #endregion
     }
 }

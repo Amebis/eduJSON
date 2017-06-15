@@ -15,9 +15,27 @@ namespace eduJSON
     [Serializable]
     public class MissingParameterException : ParameterException
     {
+        #region Constructors
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="parameter">Parameter name</param>
         public MissingParameterException(string parameter) :
-            base(Resources.ErrorMissingParameter, parameter)
+            this(Resources.ErrorMissingParameter, parameter)
         {
         }
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="parameter">Parameter name</param>
+        public MissingParameterException(string message, string parameter) :
+            base(message, parameter)
+        {
+        }
+
+        #endregion
     }
 }

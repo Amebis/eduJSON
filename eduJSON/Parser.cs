@@ -15,6 +15,8 @@ namespace eduJSON
     /// </summary>
     public class Parser
     {
+        #region Methods
+
         /// <summary>
         /// Parses the input JSON string <paramref name="str"/> and builds an object tree representing JSON data.
         /// </summary>
@@ -38,158 +40,7 @@ namespace eduJSON
             return obj;
         }
 
-        /// <summary>
-        /// Parses the value encoded as JSON string <paramref name="str"/>.
-        /// </summary>
-        /// <param name="str">The JSON string to parse</param>
-        /// <param name="idx">Starting index in <paramref name="str"/></param>
-        /// <returns>An object representing JSON value</returns>
-        protected static object ParseValue(string str, ref int idx)
-        {
-            if (ParseKeyword(str, ref idx, "true"))
-            {
-                // A logical value "true" was found.
-                return true;
-            }
-
-            if (ParseKeyword(str, ref idx, "false"))
-            {
-                // A logical value "false" was found.
-                return false;
-            }
-
-            if (ParseKeyword(str, ref idx, "null"))
-            {
-                // A "null" was found.
-                return null;
-            }
-
-            {
-                object obj = ParseNumber(str, ref idx);
-                if (obj != null)
-                    return obj;
-            }
-
-            {
-                object obj = ParseString(str, ref idx);
-                if (obj != null)
-                    return obj;
-            }
-
-            switch (str[idx])
-            {
-                case '[':
-                    {
-                        // A table was found.
-                        int startat_origin = idx;
-                        List<object> obj = new List<object>();
-                        bool is_empty = true, has_separator = false;
-
-                        for (idx++; idx < str.Length;)
-                        {
-                            // Skip leading spaces and comments.
-                            SkipSpace(str, ref idx);
-
-                            if (idx < str.Length && str[idx] == ']')
-                            {
-                                // This is the end.
-                                idx++;
-                                return obj;
-                            }
-                            else if (is_empty || has_separator)
-                            {
-                                // Analyse value recursively, and add it.
-                                obj.Add(ParseValue(str, ref idx));
-                                is_empty = false;
-
-                                // Skip trailing spaces and comments.
-                                SkipSpace(str, ref idx);
-
-                                if (idx < str.Length && str[idx] == ',')
-                                {
-                                    // A separator has been found. Skip it.
-                                    idx++;
-                                    has_separator = true;
-                                }
-                                else
-                                    has_separator = false;
-                            }
-                            else
-                                throw new MissingSeparatorOrClosingParenthesisException("]", str, idx);
-                        }
-
-                        throw new MissingClosingParenthesisException("]", str, startat_origin);
-                    }
-
-                case '{':
-                    {
-                        // An object has been found.
-                        int startat_origin = idx;
-                        Dictionary<string, object> obj = new Dictionary<string, object>();
-                        bool is_empty = true, has_separator = false;
-
-                        for (idx++; idx < str.Length;)
-                        {
-                            // Skip leading spaces and comments.
-                            SkipSpace(str, ref idx);
-
-                            if (idx < str.Length && str[idx] == '}')
-                            {
-                                // This is the end.
-                                idx++;
-                                return obj;
-                            }
-                            else if (is_empty || has_separator)
-                            {
-                                object key = ParseIdentifier(str, ref idx);
-                                if (key != null)
-                                {
-                                    // An element key has been found.
-                                    if (obj.ContainsKey((string)key))
-                                        throw new DuplicateElementException((string)key, str, idx);
-
-                                    // Skip trailing spaces and comments.
-                                    SkipSpace(str, ref idx);
-
-                                    if (idx < str.Length && str[idx] == ':')
-                                    {
-                                        // An key:value separator found.
-                                        idx++;
-
-                                        // Skip leading spaces and comments.
-                                        SkipSpace(str, ref idx);
-
-                                        // Analyse value recursively, and add it.
-                                        obj.Add((string)key, ParseValue(str, ref idx));
-                                        is_empty = false;
-
-                                        // Skip trailing spaces and comments.
-                                        SkipSpace(str, ref idx);
-
-                                        if (idx < str.Length && str[idx] == ',')
-                                        {
-                                            // A separator has been found. Skip it.
-                                            idx++;
-                                            has_separator = true;
-                                        }
-                                        else
-                                            has_separator = false;
-                                    }
-                                    else
-                                        throw new MissingSeparatorException(str, idx);
-                                }
-                                else
-                                    throw new InvalidIdentifier(str, idx);
-                            }
-                            else
-                                throw new MissingSeparatorOrClosingParenthesisException("}", str, idx);
-                        }
-                        throw new MissingClosingParenthesisException("}", str, startat_origin);
-                    }
-            }
-
-            throw new UnknownValueException(str, idx);
-        }
+        #region Parsing Primitives
 
         /// <summary>
         /// Parses the constant value <paramref name="keyword"/> encoded as JSON string <paramref name="str"/>. Used for parsing "true", "false" and "null" values.
@@ -459,6 +310,164 @@ namespace eduJSON
             return null;
         }
 
+        #endregion
+
+        #region Parsing Helpers
+
+        /// <summary>
+        /// Parses the value encoded as JSON string <paramref name="str"/>.
+        /// </summary>
+        /// <param name="str">The JSON string to parse</param>
+        /// <param name="idx">Starting index in <paramref name="str"/></param>
+        /// <returns>An object representing JSON value</returns>
+        protected static object ParseValue(string str, ref int idx)
+        {
+            if (ParseKeyword(str, ref idx, "true"))
+            {
+                // A logical value "true" was found.
+                return true;
+            }
+
+            if (ParseKeyword(str, ref idx, "false"))
+            {
+                // A logical value "false" was found.
+                return false;
+            }
+
+            if (ParseKeyword(str, ref idx, "null"))
+            {
+                // A "null" was found.
+                return null;
+            }
+
+            {
+                object obj = ParseNumber(str, ref idx);
+                if (obj != null)
+                    return obj;
+            }
+
+            {
+                object obj = ParseString(str, ref idx);
+                if (obj != null)
+                    return obj;
+            }
+
+            switch (str[idx])
+            {
+                case '[':
+                    {
+                        // An array was found.
+                        int array_origin = idx;
+                        List<object> obj = new List<object>();
+                        bool is_empty = true, has_separator = false;
+
+                        for (idx++; idx < str.Length;)
+                        {
+                            // Skip leading spaces and comments.
+                            SkipSpace(str, ref idx);
+
+                            if (idx < str.Length && str[idx] == ']')
+                            {
+                                // This is the end.
+                                idx++;
+                                return obj;
+                            }
+                            else if (is_empty || has_separator)
+                            {
+                                // Analyse value recursively, and add it.
+                                obj.Add(ParseValue(str, ref idx));
+                                is_empty = false;
+
+                                // Skip trailing spaces and comments.
+                                SkipSpace(str, ref idx);
+
+                                if (idx < str.Length && str[idx] == ',')
+                                {
+                                    // A separator has been found. Skip it.
+                                    idx++;
+                                    has_separator = true;
+                                }
+                                else
+                                    has_separator = false;
+                            }
+                            else
+                                throw new MissingSeparatorOrClosingParenthesisException("]", str, idx);
+                        }
+
+                        throw new MissingClosingParenthesisException("]", str, array_origin);
+                    }
+
+                case '{':
+                    {
+                        // An object has been found.
+                        int object_origin = idx;
+                        Dictionary<string, object> obj = new Dictionary<string, object>();
+                        bool is_empty = true, has_separator = false;
+
+                        for (idx++; idx < str.Length;)
+                        {
+                            // Skip leading spaces and comments.
+                            SkipSpace(str, ref idx);
+
+                            if (idx < str.Length && str[idx] == '}')
+                            {
+                                // This is the end.
+                                idx++;
+                                return obj;
+                            }
+                            else if (is_empty || has_separator)
+                            {
+                                int identifier_origin = idx;
+                                object key = ParseIdentifier(str, ref idx);
+                                if (key != null)
+                                {
+                                    // An element key has been found.
+                                    if (obj.ContainsKey((string)key))
+                                        throw new DuplicateElementException((string)key, str, identifier_origin);
+
+                                    // Skip trailing spaces and comments.
+                                    SkipSpace(str, ref idx);
+
+                                    if (idx < str.Length && str[idx] == ':')
+                                    {
+                                        // An key:value separator found.
+                                        idx++;
+
+                                        // Skip leading spaces and comments.
+                                        SkipSpace(str, ref idx);
+
+                                        // Analyse value recursively, and add it.
+                                        obj.Add((string)key, ParseValue(str, ref idx));
+                                        is_empty = false;
+
+                                        // Skip trailing spaces and comments.
+                                        SkipSpace(str, ref idx);
+
+                                        if (idx < str.Length && str[idx] == ',')
+                                        {
+                                            // A separator has been found. Skip it.
+                                            idx++;
+                                            has_separator = true;
+                                        }
+                                        else
+                                            has_separator = false;
+                                    }
+                                    else
+                                        throw new MissingSeparatorException(str, idx);
+                                }
+                                else
+                                    throw new InvalidIdentifier(str, idx);
+                            }
+                            else
+                                throw new MissingSeparatorOrClosingParenthesisException("}", str, idx);
+                        }
+                        throw new MissingClosingParenthesisException("}", str, object_origin);
+                    }
+            }
+
+            throw new UnknownValueException(str, idx);
+        }
+
         /// <summary>
         /// Skips white-space between JSON values.
         /// </summary>
@@ -517,6 +526,10 @@ namespace eduJSON
             }
         }
 
+        #endregion
+
+        #region Dictionary Helpers
+
         /// <summary>
         /// Safely gets a value with name from the dictionary
         /// </summary>
@@ -557,5 +570,9 @@ namespace eduJSON
 
             return (T)obj;
         }
+
+        #endregion
+
+        #endregion
     }
 }

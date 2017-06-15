@@ -12,17 +12,60 @@ using System.Security.Permissions;
 namespace eduJSON
 {
     /// <summary>
-    /// Unexpected parameter type (expected: {0}, received: {1}).
+    /// Unexpected parameter type.
     /// </summary>
     [Serializable]
     public class InvalidParameterTypeException : ParameterException
     {
+        #region Properties
+
+        /// <summary>
+        /// The error message
+        /// </summary>
+        public override string Message => String.Format(Resources.ErrorExpectedReceived, base.Message, ExpectedType, ProvidedType);
+
+        /// <summary>
+        /// The expected type of parameter
+        /// </summary>
+        public Type ExpectedType { get; }
+
+        /// <summary>
+        /// The provided type of parameter
+        /// </summary>
+        public Type ProvidedType { get; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="parameter">Parameter name</param>
+        /// <param name="expected_type">Expected type</param>
+        /// <param name="provided_type">Provided type</param>
         public InvalidParameterTypeException(string parameter, Type expected_type, Type provided_type) :
-            base(String.Format(Resources.ErrorInvalidParameterType, expected_type.ToString(), provided_type.ToString()), parameter)
+            this(Resources.ErrorInvalidParameterType, parameter, expected_type, provided_type)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="parameter">Parameter name</param>
+        /// <param name="expected_type">Expected type</param>
+        /// <param name="provided_type">Provided type</param>
+        public InvalidParameterTypeException(string message, string parameter, Type expected_type, Type provided_type) :
+            base(message, parameter)
         {
             ExpectedType = expected_type;
             ProvidedType = provided_type;
         }
+
+        #endregion
+
+        #region ISerializable Support
 
         protected InvalidParameterTypeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -39,14 +82,6 @@ namespace eduJSON
             info.AddValue("ProvidedType", ProvidedType);
         }
 
-        /// <summary>
-        /// The expected type of parameter
-        /// </summary>
-        public Type ExpectedType { get; }
-
-        /// <summary>
-        /// The provided type of parameter
-        /// </summary>
-        public Type ProvidedType { get; }
+        #endregion
     }
 }

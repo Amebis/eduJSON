@@ -15,9 +15,29 @@ namespace eduJSON
     [Serializable]
     public class UnknownValueException : JSONException
     {
+        #region Constructors
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="code">JSON code</param>
+        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public UnknownValueException(string code, int start) :
-            base(Resources.ErrorUnknownValue, code, start)
+            this(Resources.ErrorUnknownValue, code, start)
         {
         }
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="code">JSON code</param>
+        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        public UnknownValueException(string message, string code, int start) :
+            base(message, code, start)
+        {
+        }
+
+        #endregion
     }
 }

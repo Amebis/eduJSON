@@ -70,6 +70,15 @@ namespace eduJSON {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} (expected: {1}, received: {2}).
+        /// </summary>
+        internal static string ErrorExpectedReceived {
+            get {
+                return ResourceManager.GetString("ErrorExpectedReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid element name found..
         /// </summary>
         internal static string ErrorInvalidIdentifier {
@@ -79,11 +88,20 @@ namespace eduJSON {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unexpected parameter type (expected: {0}, received: {1})..
+        ///   Looks up a localized string similar to Unexpected parameter type..
         /// </summary>
         internal static string ErrorInvalidParameterType {
             get {
                 return ResourceManager.GetString("ErrorInvalidParameterType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} JSON: {1}.
+        /// </summary>
+        internal static string ErrorJSONCode {
+            get {
+                return ResourceManager.GetString("ErrorJSONCode", resourceCulture);
             }
         }
         
@@ -120,6 +138,15 @@ namespace eduJSON {
         internal static string ErrorMissingSeparatorOrClosingParenthesis {
             get {
                 return ResourceManager.GetString("ErrorMissingSeparatorOrClosingParenthesis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} (parameter name: {1}).
+        /// </summary>
+        internal static string ErrorParameter {
+            get {
+                return ResourceManager.GetString("ErrorParameter", resourceCulture);
             }
         }
         

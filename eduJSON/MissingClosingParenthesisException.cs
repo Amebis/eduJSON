@@ -17,17 +17,44 @@ namespace eduJSON
     [Serializable]
     public class MissingClosingParenthesisException : JSONException
     {
+        #region Properties
+
+        /// <summary>
+        /// Missing closing parenthesis
+        /// </summary>
+        public string Parenthesis { get; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="parenthesis">Parenthesis</param>
+        /// <param name="code">JSON code</param>
+        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public MissingClosingParenthesisException(string parenthesis, string code, int start) :
-            base(String.Format(Resources.ErrorMissingClosingParenthesis, parenthesis), code, start)
+            this(String.Format(Resources.ErrorMissingClosingParenthesis, parenthesis), parenthesis, code, start)
         {
-            Parenthesis = parenthesis;
         }
 
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="parenthesis">Parenthesis</param>
+        /// <param name="code">JSON code</param>
+        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public MissingClosingParenthesisException(string message, string parenthesis, string code, int start) :
             base(message, code, start)
         {
             Parenthesis = parenthesis;
         }
+
+        #endregion
+
+        #region ISerializable Support
 
         protected MissingClosingParenthesisException(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -42,9 +69,6 @@ namespace eduJSON
             info.AddValue("Parenthesis", Parenthesis);
         }
 
-        /// <summary>
-        /// Missing closing parenthesis
-        /// </summary>
-        public string Parenthesis { get; }
+        #endregion
     }
 }

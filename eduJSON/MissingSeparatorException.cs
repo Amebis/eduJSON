@@ -15,9 +15,29 @@ namespace eduJSON
     [Serializable]
     public class MissingSeparatorException : JSONException
     {
+        #region Constructors
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="code">JSON code</param>
+        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public MissingSeparatorException(string code, int start) :
-            base(Resources.ErrorMissingSeparator, code, start)
+            this(Resources.ErrorMissingSeparator, code, start)
         {
         }
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="code">JSON code</param>
+        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        public MissingSeparatorException(string message, string code, int start) :
+            base(message, code, start)
+        {
+        }
+
+        #endregion
     }
 }

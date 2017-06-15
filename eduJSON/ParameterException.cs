@@ -17,11 +17,36 @@ namespace eduJSON
     [Serializable]
     public class ParameterException : ApplicationException
     {
+        #region Members
+
+        /// <summary>
+        /// The error message
+        /// </summary>
+        public override string Message => ParameterName != null ? String.Format(Resources.ErrorParameter, base.Message, ParameterName) : base.Message;
+
+        /// <summary>
+        /// Parameter name
+        /// </summary>
+        public string ParameterName { get; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Constructs an exception
+        /// </summary>
+        /// <param name="message">Exception message</param>
+        /// <param name="parameter">Parameter name</param>
         public ParameterException(string message, string parameter) :
             base(message)
         {
             ParameterName = parameter;
         }
+
+        #endregion
+
+        #region ISerializable Support
 
         protected ParameterException(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -36,14 +61,6 @@ namespace eduJSON
             info.AddValue("ParameterName", ParameterName);
         }
 
-        /// <summary>
-        /// The error message
-        /// </summary>
-        public override string Message => ParameterName != null ? String.Format("{0} - {1}", base.Message, ParameterName) : base.Message;
-
-        /// <summary>
-        /// Parameter name
-        /// </summary>
-        public string ParameterName { get; }
+        #endregion
     }
 }
