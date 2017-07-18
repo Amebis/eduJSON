@@ -22,7 +22,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="parameter">Parameter name</param>
         public MissingParameterException(string parameter) :
-            this(Resources.ErrorMissingParameter, parameter)
+            this(Resources.Strings.ErrorMissingParameter, parameter)
         {
         }
 

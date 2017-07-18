@@ -23,7 +23,7 @@ namespace eduJSON
         /// <param name="code">JSON code</param>
         /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public InvalidIdentifier(string code, int start) :
-            this(Resources.ErrorInvalidIdentifier, code, start)
+            this(Resources.Strings.ErrorInvalidIdentifier, code, start)
         {
         }
 

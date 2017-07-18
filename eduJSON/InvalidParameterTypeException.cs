@@ -22,7 +22,7 @@ namespace eduJSON
         /// <summary>
         /// The error message
         /// </summary>
-        public override string Message => String.Format(Resources.ErrorExpectedReceived, base.Message, ExpectedType, ProvidedType);
+        public override string Message => String.Format(Resources.Strings.ErrorExpectedReceived, base.Message, ExpectedType, ProvidedType);
 
         /// <summary>
         /// The expected type of parameter
@@ -45,7 +45,7 @@ namespace eduJSON
         /// <param name="expected_type">Expected type</param>
         /// <param name="provided_type">Provided type</param>
         public InvalidParameterTypeException(string parameter, Type expected_type, Type provided_type) :
-            this(Resources.ErrorInvalidParameterType, parameter, expected_type, provided_type)
+            this(Resources.Strings.ErrorInvalidParameterType, parameter, expected_type, provided_type)
         {
         }
 

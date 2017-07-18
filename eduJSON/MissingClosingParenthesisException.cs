@@ -35,7 +35,7 @@ namespace eduJSON
         /// <param name="code">JSON code</param>
         /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public MissingClosingParenthesisException(string parenthesis, string code, int start) :
-            this(String.Format(Resources.ErrorMissingClosingParenthesis, parenthesis), parenthesis, code, start)
+            this(String.Format(Resources.Strings.ErrorMissingClosingParenthesis, parenthesis), parenthesis, code, start)
         {
         }
 

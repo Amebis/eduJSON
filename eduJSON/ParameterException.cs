@@ -22,7 +22,7 @@ namespace eduJSON
         /// <summary>
         /// The error message
         /// </summary>
-        public override string Message => ParameterName != null ? String.Format(Resources.ErrorParameter, base.Message, ParameterName) : base.Message;
+        public override string Message => ParameterName != null ? String.Format(Resources.Strings.ErrorParameter, base.Message, ParameterName) : base.Message;
 
         /// <summary>
         /// Parameter name

@@ -23,7 +23,7 @@ namespace eduJSON
         /// <param name="code">JSON code</param>
         /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public TrailingDataException(string code, int start) :
-            this(Resources.ErrorTrailingData, code, start)
+            this(Resources.Strings.ErrorTrailingData, code, start)
         {
         }
 

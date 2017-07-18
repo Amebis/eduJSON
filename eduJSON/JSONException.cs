@@ -22,7 +22,7 @@ namespace eduJSON
         /// <summary>
         /// Gets the error message and the JSON code, or only the error message if no code is set.
         /// </summary>
-        public override string Message => Code != null ? String.Format(Resources.ErrorJSONCode, base.Message, Code) : base.Message;
+        public override string Message => Code != null ? String.Format(Resources.Strings.ErrorJSONCode, base.Message, Code) : base.Message;
 
         /// <summary>
         /// JSON code that caused the problem

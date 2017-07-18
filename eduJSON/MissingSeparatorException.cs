@@ -23,7 +23,7 @@ namespace eduJSON
         /// <param name="code">JSON code</param>
         /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public MissingSeparatorException(string code, int start) :
-            this(Resources.ErrorMissingSeparator, code, start)
+            this(Resources.Strings.ErrorMissingSeparator, code, start)
         {
         }
 

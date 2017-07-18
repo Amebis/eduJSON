@@ -23,7 +23,7 @@ namespace eduJSON
         /// <param name="code">JSON code</param>
         /// <param name="start">Starting offset in <paramref name="code"/>.</param>
         public UnknownValueException(string code, int start) :
-            this(Resources.ErrorUnknownValue, code, start)
+            this(Resources.Strings.ErrorUnknownValue, code, start)
         {
         }
 
