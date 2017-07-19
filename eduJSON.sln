@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eduJSON", "eduJSON\eduJSON.csproj", "{8F4C3F22-1988-4077-9220-ED2512FC0248}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eduJSONTests", "eduJSONTests\eduJSONTests.csproj", "{2C761E16-7CE7-4702-9BB9-C36C0903C8FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eduJSON.Tests", "eduJSON.Tests\eduJSON.Tests.csproj", "{2C761E16-7CE7-4702-9BB9-C36C0903C8FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC045BA7-5104-4F4C-A3CB-186AA08B104F}"
 	ProjectSection(SolutionItems) = preProject
