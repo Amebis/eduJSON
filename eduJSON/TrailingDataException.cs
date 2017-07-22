@@ -6,6 +6,7 @@
 */
 
 using System;
+using System.Runtime.Serialization;
 
 namespace eduJSON
 {
@@ -13,7 +14,7 @@ namespace eduJSON
     /// Unexpected trailing data found.
     /// </summary>
     [Serializable]
-    public class TrailingDataException : JSONException
+    public class TrailingDataException : JSONException, ISerializable
     {
         #region Constructors
 

@@ -15,7 +15,7 @@ namespace eduJSON
     /// Missing "{0}" parenthesis.
     /// </summary>
     [Serializable]
-    public class MissingClosingParenthesisException : JSONException
+    public class MissingClosingParenthesisException : JSONException, ISerializable
     {
         #region Properties
 

@@ -6,6 +6,7 @@
 */
 
 using System;
+using System.Runtime.Serialization;
 
 namespace eduJSON
 {
@@ -13,7 +14,7 @@ namespace eduJSON
     /// Missing "," separator or "{0}" parenthesis.
     /// </summary>
     [Serializable]
-    public class MissingSeparatorOrClosingParenthesisException : MissingClosingParenthesisException
+    public class MissingSeparatorOrClosingParenthesisException : MissingClosingParenthesisException, ISerializable
     {
         #region Constructors
 

@@ -6,6 +6,7 @@
 */
 
 using System;
+using System.Runtime.Serialization;
 
 namespace eduJSON
 {
@@ -13,7 +14,7 @@ namespace eduJSON
     /// Missing ":" separator.
     /// </summary>
     [Serializable]
-    public class MissingSeparatorException : JSONException
+    public class MissingSeparatorException : JSONException, ISerializable
     {
         #region Constructors
 

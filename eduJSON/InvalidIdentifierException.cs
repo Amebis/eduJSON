@@ -6,6 +6,7 @@
 */
 
 using System;
+using System.Runtime.Serialization;
 
 namespace eduJSON
 {
@@ -13,7 +14,7 @@ namespace eduJSON
     /// Invalid element name found.
     /// </summary>
     [Serializable]
-    public class InvalidIdentifier : JSONException
+    public class InvalidIdentifier : JSONException, ISerializable
     {
         #region Constructors
 

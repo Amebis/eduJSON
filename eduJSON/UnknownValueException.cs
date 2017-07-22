@@ -6,6 +6,7 @@
 */
 
 using System;
+using System.Runtime.Serialization;
 
 namespace eduJSON
 {
@@ -13,7 +14,7 @@ namespace eduJSON
     /// Unknown value found.
     /// </summary>
     [Serializable]
-    public class UnknownValueException : JSONException
+    public class UnknownValueException : JSONException, ISerializable
     {
         #region Constructors
 

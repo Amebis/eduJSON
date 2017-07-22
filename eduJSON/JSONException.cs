@@ -15,7 +15,7 @@ namespace eduJSON
     /// Generic JSON exception
     /// </summary>
     [Serializable]
-    public class JSONException : ApplicationException
+    public class JSONException : ApplicationException, ISerializable
     {
         #region Properties
 

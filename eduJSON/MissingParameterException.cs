@@ -6,6 +6,7 @@
 */
 
 using System;
+using System.Runtime.Serialization;
 
 namespace eduJSON
 {
@@ -13,7 +14,7 @@ namespace eduJSON
     /// A required parameter is missing.
     /// </summary>
     [Serializable]
-    public class MissingParameterException : ParameterException
+    public class MissingParameterException : ParameterException, ISerializable
     {
         #region Constructors
 
