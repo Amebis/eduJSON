@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 
 namespace eduJSON
@@ -218,7 +219,7 @@ namespace eduJSON
             {
                 // Opening quote found.
                 i++;
-                string res = "";
+                StringBuilder res = new StringBuilder(n);
                 for (; i < n; )
                 {
                     char chr = str[i];
@@ -226,7 +227,7 @@ namespace eduJSON
                     {
                         // Closing quote found.
                         idx = i + 1;
-                        return res;
+                        return res.ToString();
                     }
                     else if (chr == '\\')
                     {
@@ -234,14 +235,14 @@ namespace eduJSON
                         i++;
                         switch (str[i])
                         {
-                            case '"': res += '"'; i++; break;
-                            case '\\': res += '\\'; i++; break;
-                            case '/': res += '/'; i++; break;
-                            case 'b': res += '\b'; i++; break;
-                            case 'f': res += '\f'; i++; break;
-                            case 'n': res += '\n'; i++; break;
-                            case 'r': res += '\r'; i++; break;
-                            case 't': res += '\t'; i++; break;
+                            case '"': res.Append('"'); i++; break;
+                            case '\\': res.Append('\\'); i++; break;
+                            case '/': res.Append('/'); i++; break;
+                            case 'b': res.Append('\b'); i++; break;
+                            case 'f': res.Append('\f'); i++; break;
+                            case 'n': res.Append('\n'); i++; break;
+                            case 'r': res.Append('\r'); i++; break;
+                            case 't': res.Append('\t'); i++; break;
                             case 'u':
                                 i++;
                                 uint unicode = 0;
@@ -260,20 +261,20 @@ namespace eduJSON
                                         break;
                                     }
                                 }
-                                res += (char)unicode;
+                                res.Append((char)unicode);
                                 break;
 
                             default:
                                 // JSON EXT: Ignore invalid escape sequence
-                                res += '\\';
-                                res += str[i]; i++;
+                                res.Append('\\');
+                                res.Append(str[i]); i++;
                                 break;
                         }
                     }
                     else
                     {
                         // JSON EXT: Control characters in strings
-                        res += chr; i++;
+                        res.Append(chr); i++;
                     }
                 }
             }
