@@ -22,7 +22,7 @@ namespace eduJSON
         /// Constructs an exception
         /// </summary>
         /// <param name="code">JSON code</param>
-        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        /// <param name="start">Starting offset in <paramref name="code"/></param>
         public InvalidIdentifier(string code, int start) :
             this(Resources.Strings.ErrorInvalidIdentifier, code, start)
         {
@@ -33,7 +33,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="message">Exception message</param>
         /// <param name="code">JSON code</param>
-        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        /// <param name="start">Starting offset in <paramref name="code"/></param>
         public InvalidIdentifier(string message, string code, int start) :
             base(message, code, start)
         {

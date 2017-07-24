@@ -33,7 +33,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="name">Element name</param>
         /// <param name="code">JSON code</param>
-        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        /// <param name="start">Starting offset in <paramref name="code"/></param>
         public DuplicateElementException(string name, string code, int start) :
             this(String.Format(Resources.Strings.ErrorDuplicateElement, name), name, code, start)
         {
@@ -45,7 +45,7 @@ namespace eduJSON
         /// <param name="message">Exception message</param>
         /// <param name="name">Element name</param>
         /// <param name="code">JSON code</param>
-        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        /// <param name="start">Starting offset in <paramref name="code"/></param>
         public DuplicateElementException(string message, string name, string code, int start) :
             base(message, code, start)
         {

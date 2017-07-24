@@ -22,7 +22,7 @@ namespace eduJSON
         /// Parses the input JSON string <paramref name="str"/> and builds an object tree representing JSON data.
         /// </summary>
         /// <param name="str">The JSON string to parse</param>
-        /// <param name="ct">The token to monitor for cancellation requests.</param>
+        /// <param name="ct">The token to monitor for cancellation requests</param>
         /// <returns>An object representing JSON data</returns>
         public static object Parse(string str, CancellationToken ct = default(CancellationToken))
         {
@@ -321,7 +321,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="str">The JSON string to parse</param>
         /// <param name="idx">Starting index in <paramref name="str"/></param>
-        /// <param name="ct">The token to monitor for cancellation requests.</param>
+        /// <param name="ct">The token to monitor for cancellation requests</param>
         /// <returns>An object representing JSON value</returns>
         protected static object ParseValue(string str, ref int idx, CancellationToken ct)
         {

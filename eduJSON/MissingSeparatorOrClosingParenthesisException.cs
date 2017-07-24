@@ -23,7 +23,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="parenthesis">Parenthesis</param>
         /// <param name="code">JSON code</param>
-        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        /// <param name="start">Starting offset in <paramref name="code"/></param>
         public MissingSeparatorOrClosingParenthesisException(string parenthesis, string code, int start) :
             this(String.Format(Resources.Strings.ErrorMissingSeparatorOrClosingParenthesis, parenthesis), parenthesis, code, start)
         {
@@ -35,7 +35,7 @@ namespace eduJSON
         /// <param name="message">Exception message</param>
         /// <param name="parenthesis">Parenthesis</param>
         /// <param name="code">JSON code</param>
-        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        /// <param name="start">Starting offset in <paramref name="code"/></param>
         public MissingSeparatorOrClosingParenthesisException(string message, string parenthesis, string code, int start) :
             base(message, parenthesis, code, start)
         {

@@ -62,7 +62,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="message">Exception message</param>
         /// <param name="code">JSON code</param>
-        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        /// <param name="start">Starting offset in <paramref name="code"/></param>
         public JSONException(string message, string code, int start) :
             base(message)
         {
@@ -74,7 +74,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="message">Exception message</param>
         /// <param name="code">JSON code</param>
-        /// <param name="start">Starting offset in <paramref name="code"/>.</param>
+        /// <param name="start">Starting offset in <paramref name="code"/></param>
         /// <param name="innerException">Inner exception</param>
         public JSONException(string message, string code, int start, Exception innerException) :
             base(message, innerException)
