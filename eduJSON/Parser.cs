@@ -53,7 +53,7 @@ namespace eduJSON
         /// <param name="keyword">Expected keyword. Should be all-lowercase.</param>
         /// <returns><c>true</c> when JSON string <paramref name="str"/> at <paramref name="idx"/> matches the keyboard <paramref name="keyword"/>; <c>false</c> otherwise.</returns>
         /// <remarks>The JSON string <paramref name="str"/> is converted to lowercase for matching only. Therefore <paramref name="keyword"/> should be given all-lowercase.</remarks>
-        protected static bool ParseKeyword(string str, ref int idx, string keyword)
+        private static bool ParseKeyword(string str, ref int idx, string keyword)
         {
             int len = keyword.Length;
 
@@ -77,7 +77,7 @@ namespace eduJSON
         /// <param name="str">The JSON string to parse</param>
         /// <param name="idx">Starting index in <paramref name="str"/></param>
         /// <returns>The number of type <c>int</c> or <c>double</c> (depending on JSON string <paramref name="str"/> at <paramref name="idx"/>); or <c>null</c> if not-a-number.</returns>
-        protected static object ParseNumber(string str, ref int idx)
+        private static object ParseNumber(string str, ref int idx)
         {
             int i = idx, n = str.Length;
 
@@ -211,7 +211,7 @@ namespace eduJSON
         /// <param name="str">The JSON string to parse</param>
         /// <param name="idx">Starting index in <paramref name="str"/></param>
         /// <returns>The string of type <c>string</c>; or <c>null</c> if JSON string <paramref name="str"/> at <paramref name="idx"/> does not represent a string.</returns>
-        protected static object ParseString(string str, ref int idx)
+        private static object ParseString(string str, ref int idx)
         {
             int i = idx, n = str.Length;
 
@@ -288,7 +288,7 @@ namespace eduJSON
         /// <param name="str">The JSON string to parse</param>
         /// <param name="idx">Starting index in <paramref name="str"/></param>
         /// <returns>The string of type <c>string</c>; or <c>null</c> if JSON string <paramref name="str"/> at <paramref name="idx"/> does not represent an identifier.</returns>
-        protected static object ParseIdentifier(string str, ref int idx)
+        private static object ParseIdentifier(string str, ref int idx)
         {
             int i = idx, n = str.Length;
 
@@ -324,7 +324,7 @@ namespace eduJSON
         /// <param name="idx">Starting index in <paramref name="str"/></param>
         /// <param name="ct">The token to monitor for cancellation requests</param>
         /// <returns>An object representing JSON value</returns>
-        protected static object ParseValue(string str, ref int idx, CancellationToken ct)
+        private static object ParseValue(string str, ref int idx, CancellationToken ct)
         {
             if (ParseKeyword(str, ref idx, "true"))
             {
@@ -482,7 +482,7 @@ namespace eduJSON
         /// <param name="str">The JSON string to parse</param>
         /// <param name="idx">Starting index in <paramref name="str"/></param>
         /// <remarks>C/C++ style comments are also treated as white-space and skipped.</remarks>
-        protected static void SkipSpace(string str, ref int idx)
+        private static void SkipSpace(string str, ref int idx)
         {
             for (int len = str.Length; idx < len;)
             {
