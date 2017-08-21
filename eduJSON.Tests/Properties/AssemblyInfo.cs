@@ -1,25 +1,20 @@
 ﻿/*
-    eduJSON - A Lightweight JSON Parser for eduVPN (and beyond)
+    eduJSON - Lightweight JSON Parser for eduVPN (and beyond)
 
     Copyright: 2017, The Commons Conservancy eduVPN Programme
     SPDX-License-Identifier: GPL-3.0+
 */
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("eduJSON.Tests")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyTitle("eduJSON Tests")]
 [assembly: AssemblyCompany("Amebis")]
 [assembly: AssemblyProduct("eduJSON")]
 [assembly: AssemblyCopyright("Copyright © Amebis 2017")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
