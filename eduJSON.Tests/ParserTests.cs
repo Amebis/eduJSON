@@ -6,8 +6,9 @@
 */
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 
 namespace eduJSON.Tests
 {
@@ -130,6 +131,134 @@ namespace eduJSON.Tests
                 Assert.Fail("Unknown JSON value tolerated");
             }
             catch (UnknownValueException) { }
+        }
+
+        [TestMethod()]
+        public void ParseTestGetValue()
+        {
+            var obj = Parser.Parse("{ \"k_string\": \"abc\", \"k_bool\": true, \"k_int\": 123, \"k_array\": [1, 2, 3], \"k_dict\": {} }") as Dictionary<string, object>;
+
+            // Function result variant
+            Assert.AreEqual(Parser.GetValue<string>(obj, "k_string"), "abc");
+            Assert.AreEqual(Parser.GetValue<bool>(obj, "k_bool"), true);
+            Assert.AreEqual(Parser.GetValue<int>(obj, "k_int"), 123);
+            CollectionAssert.AreEqual(Parser.GetValue<List<object>>(obj, "k_array"), new List<object>() { 1, 2, 3 });
+            CollectionAssert.AreEqual(Parser.GetValue<Dictionary<string, object>>(obj, "k_dict"), new Dictionary<string, object>());
+
+            try
+            {
+                Parser.GetValue<string>(obj, "foobar");
+                Assert.Fail("Non-existing parameter found");
+            }
+            catch (MissingParameterException) { }
+
+            try
+            {
+                Parser.GetValue<int>(obj, "k_string");
+                Assert.Fail("Parameter type mismatch tolerated");
+            }
+            catch (InvalidParameterTypeException) { }
+
+            // Variable reference variant
+            Assert.IsTrue(Parser.GetValue(obj, "k_string", out string val_string) && val_string == "abc");
+            Assert.IsTrue(Parser.GetValue(obj, "k_bool", out bool val_bool) && val_bool == true);
+            Assert.IsTrue(Parser.GetValue(obj, "k_int", out int val_int) && val_int == 123);
+            Assert.IsTrue(Parser.GetValue(obj, "k_array", out List<object> val_array)/* && val_array.Equals(new List<object>() { 1, 2, 3 })*/);
+            Assert.IsTrue(Parser.GetValue(obj, "k_dict", out Dictionary<string, object> val_dict)/* && val_dict.Equals(new Dictionary<string, object>())*/);
+
+            Assert.IsFalse(Parser.GetValue(obj, "foobar", out val_string));
+
+            try
+            {
+                Parser.GetValue(obj, "k_string", out val_int);
+                Assert.Fail("Parameter type mismatch tolerated");
+            }
+            catch (InvalidParameterTypeException) { }
+
+        }
+
+        [TestMethod()]
+        public void ParseTestGetLocalizedValue()
+        {
+            CultureInfo culture;
+            string val_string;
+            var obj = Parser.Parse("{ \"key1\": \"<language independent>\", \"key2\": { \"de-DE\": \"Sprache\", \"en-US\": \"Language\" }, \"key3\": { \"de-DE\": \"Nur Deutsch\" } }") as Dictionary<string, object>;
+
+            // Set language preference to German (Germany).
+            culture = new CultureInfo("de-DE");
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
+            // Function result variant
+            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key1"), "<language independent>");
+            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key2"), "Sprache");
+            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key3"), "Nur Deutsch");
+
+            // Variable reference variant
+            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key1", out val_string) && val_string == "<language independent>");
+            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key2", out val_string) && val_string == "Sprache");
+            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key3", out val_string) && val_string == "Nur Deutsch");
+
+            // Set language preference to Slovenian (Slovenia).
+            culture = new CultureInfo("sl-SI");
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
+            // Function result variant
+            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key1"), "<language independent>");
+            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key2"), "Language");
+            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key3"), "Nur Deutsch");
+
+            // Variable reference variant
+            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key1", out val_string) && val_string == "<language independent>");
+            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key2", out val_string) && val_string == "Language");
+            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key3", out val_string) && val_string == "Nur Deutsch");
+
+            // Set language preference to English (U.S.).
+            culture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
+            // Function result variant
+            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key1"), "<language independent>");
+            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key2"), "Language");
+            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key3"), "Nur Deutsch");
+
+            // Variable reference variant
+            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key1", out val_string) && val_string == "<language independent>");
+            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key2", out val_string) && val_string == "Language");
+            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key3", out val_string) && val_string == "Nur Deutsch");
+
+            // Test failures
+            try
+            {
+                Parser.GetLocalizedValue<string>(obj, "foobar");
+                Assert.Fail("Non-existing parameter found");
+            }
+            catch (MissingParameterException) { }
+
+            try
+            {
+                Parser.GetLocalizedValue<int>(obj, "key2");
+                Assert.Fail("Parameter type mismatch tolerated");
+            }
+            catch (InvalidParameterTypeException) { }
+
+            Assert.IsFalse(Parser.GetValue(obj, "foobar", out val_string));
+
+            try
+            {
+                Parser.GetValue(obj, "key2", out int val_int);
+                Assert.Fail("Parameter type mismatch tolerated");
+            }
+            catch (InvalidParameterTypeException) { }
+
         }
     }
 }
