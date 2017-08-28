@@ -606,6 +606,10 @@ namespace eduJSON
                 if (GetValue<T>(obj_dict, Thread.CurrentThread.CurrentUICulture.Name, out value))
                     return true;
 
+                // Load value according to thread culture.
+                if (GetValue<T>(obj_dict, Thread.CurrentThread.CurrentCulture.Name, out value))
+                    return true;
+
                 // Fallback to "en-US".
                 if (GetValue<T>(obj_dict, "en-US", out value))
                     return true;
@@ -650,6 +654,10 @@ namespace eduJSON
 
                 // Load value according to thread UI culture.
                 if (GetValue<T>(obj_dict, Thread.CurrentThread.CurrentUICulture.Name, out value))
+                    return value;
+
+                // Load value according to thread culture.
+                if (GetValue<T>(obj_dict, Thread.CurrentThread.CurrentCulture.Name, out value))
                     return value;
 
                 // Fallback to "en-US".
