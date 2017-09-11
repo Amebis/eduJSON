@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    eduJSON - Lightweight JSON Parser for eduVPN (and beyond)
+
+    Copyright: 2017, The Commons Conservancy eduVPN Programme
+    SPDX-License-Identifier: GPL-3.0+
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <!--
+            Components
+        -->
+        <DirectoryRef Id="INSTALLDIR">
+            <Component Id="eduJSON.dll" Guid="{BC7AF3B7-872E-405C-A319-391CA0FB40D4}">
+                <File Source="eduJSON.dll"/>
+            </Component>
+        </DirectoryRef>
+        <DirectoryRef Id="RESOURCEDIRSL">
+            <Component Id="eduJSON.resources.dll.sl" Guid="{209B274A-EEE5-44BA-B4B6-CDD9B907F779}">
+                <File Id="eduJSON.resources.dll.sl" Source="sl\eduJSON.resources.dll"/>
+            </Component>
+        </DirectoryRef>
+
+
+        <!--
+            Component groups
+        -->
+        <ComponentGroup Id="eduJSON.dll">
+            <ComponentRef Id="eduJSON.dll"/>
+            <ComponentRef Id="eduJSON.resources.dll.sl"/>
+        </ComponentGroup>
+    </Fragment>
+</Wix>
