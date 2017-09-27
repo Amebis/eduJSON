@@ -62,6 +62,7 @@ namespace eduJSON
             Parenthesis = (string)info.GetValue("Parenthesis", typeof(string));
         }
 
+        /// <inheritdoc/>
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

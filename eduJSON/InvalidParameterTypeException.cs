@@ -74,6 +74,7 @@ namespace eduJSON
             ProvidedType = (Type)info.GetValue("ProvidedType", typeof(Type));
         }
 
+        /// <inheritdoc/>
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

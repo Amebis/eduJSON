@@ -62,6 +62,7 @@ namespace eduJSON
             ElementName = (string)info.GetValue("ElementName", typeof(string));
         }
 
+        /// <inheritdoc/>
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

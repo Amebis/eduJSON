@@ -54,6 +54,7 @@ namespace eduJSON
             ParameterName = (string)info.GetValue("ParameterName", typeof(string));
         }
 
+        /// <inheritdoc/>
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

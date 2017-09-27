@@ -92,6 +92,7 @@ namespace eduJSON
             Code = (string)info.GetValue("Code", typeof(string));
         }
 
+        /// <inheritdoc/>
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
