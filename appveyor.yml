@@ -1,0 +1,18 @@
+version: 1.0.2.{build}
+image: Visual Studio 2017
+before_build:
+  - nuget restore
+configuration:
+  - Debug
+  - Release
+platform:
+  - x86
+  - x64
+build:
+  project: eduJSON.sln
+  parallel: true
+  verbosity: minimal
+artifacts:
+  - path: bin\$(configuration)\$(platform)\eduJSON.dll
+  - path: bin\$(configuration)\$(platform)\eduJSON.pdb
+  - path: bin\$(configuration)\$(platform)\sl\eduJSON.resources.dll
