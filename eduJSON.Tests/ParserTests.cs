@@ -16,7 +16,7 @@ namespace eduJSON.Tests
     public class ParserTests
     {
         [TestMethod()]
-        public void ParseTestBoolean()
+        public void ParseBooleanTest()
         {
             // Test basic data types.
             Assert.AreEqual(true, Parser.Parse("// Test 1\n  True /* Trailing comment */"), "Boolean \"true\" not recognized");
@@ -24,13 +24,13 @@ namespace eduJSON.Tests
         }
 
         [TestMethod()]
-        public void ParseTestNull()
+        public void ParseNullTest()
         {
             Assert.AreEqual(null, Parser.Parse("NULL"), "\"null\" not recognized");
         }
 
         [TestMethod()]
-        public void ParseTestInteger()
+        public void ParseIntegerTest()
         {
             Assert.AreEqual(1234, Parser.Parse(" 1234 "), "Integer not recognized");
             Assert.AreEqual(1234, Parser.Parse(" +1234 "), "Integer with an explicit \"+\" sign not recognized (JSON EX)");
@@ -38,21 +38,21 @@ namespace eduJSON.Tests
         }
 
         [TestMethod()]
-        public void ParseTestFloat()
+        public void ParseFloatTest()
         {
             Assert.AreEqual(1.0870e-3, (double)Parser.Parse(" +1.0870e-3 "), 1e-10, "Float not recognized");
             Assert.AreEqual(-2e+31, (double)Parser.Parse(" -2e+31 "), 1e-10, "Negative float not recognized");
         }
 
         [TestMethod()]
-        public void ParseTestString()
+        public void ParseStringTest()
         {
             Assert.AreEqual("This is a test.", Parser.Parse(" \"This is a test.\" "), "Quoted string not recognized");
             Assert.AreEqual("  \"/\\\b\f\n\r\t\u263a\\x  ", Parser.Parse(" \"  \\\"\\/\\\\\\b\\f\\n\\r\\t\\u263A\\x  \" "), "JSON string escape sequences not recognized");
         }
 
         [TestMethod()]
-        public void ParseTestStruct()
+        public void ParseStructTest()
         {
             // CollectionAssert.AreEqual() does not work for sub-collections; Check manually.
             object obj = Parser.Parse("{ \"key1\" : true , \"key2\" : [ 1, 2, 3, 4, 5], \"key3\" : { \"k1\": \"test1\", k2:\"test2\"}}");
@@ -118,7 +118,7 @@ namespace eduJSON.Tests
         }
 
         [TestMethod()]
-        public void ParseTestIssues()
+        public void ParseIssuesTest()
         {
             try
             {
@@ -134,7 +134,7 @@ namespace eduJSON.Tests
         }
 
         [TestMethod()]
-        public void ParseTestGetValue()
+        public void ParseGetValueTest()
         {
             var obj = Parser.Parse("{ \"k_string\": \"abc\", \"k_bool\": true, \"k_int\": 123, \"k_array\": [1, 2, 3], \"k_dict\": {} }") as Dictionary<string, object>;
 
@@ -174,11 +174,10 @@ namespace eduJSON.Tests
                 Assert.Fail("Parameter type mismatch tolerated");
             }
             catch (InvalidParameterTypeException) { }
-
         }
 
         [TestMethod()]
-        public void ParseTestGetLocalizedValue()
+        public void ParseGetLocalizedValueTest()
         {
             CultureInfo culture;
             string val_string;
@@ -258,7 +257,6 @@ namespace eduJSON.Tests
                 Assert.Fail("Parameter type mismatch tolerated");
             }
             catch (InvalidParameterTypeException) { }
-
         }
     }
 }
