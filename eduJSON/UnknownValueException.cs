@@ -14,7 +14,7 @@ namespace eduJSON
     /// Unknown value found.
     /// </summary>
     [Serializable]
-    public class UnknownValueException : JSONException, ISerializable
+    public class UnknownValueException : JSONException
     {
         #region Constructors
 
@@ -36,6 +36,15 @@ namespace eduJSON
         /// <param name="start">Starting offset in <paramref name="code"/></param>
         public UnknownValueException(string message, string code, int start) :
             base(message, code, start)
+        {
+        }
+
+        #endregion
+
+        #region ISerializable Support
+
+        protected UnknownValueException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
 

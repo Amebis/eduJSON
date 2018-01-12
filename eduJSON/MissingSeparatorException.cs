@@ -14,7 +14,7 @@ namespace eduJSON
     /// Missing ":" separator.
     /// </summary>
     [Serializable]
-    public class MissingSeparatorException : JSONException, ISerializable
+    public class MissingSeparatorException : JSONException
     {
         #region Constructors
 
@@ -36,6 +36,15 @@ namespace eduJSON
         /// <param name="start">Starting offset in <paramref name="code"/></param>
         public MissingSeparatorException(string message, string code, int start) :
             base(message, code, start)
+        {
+        }
+
+        #endregion
+
+        #region ISerializable Support
+
+        protected MissingSeparatorException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
 

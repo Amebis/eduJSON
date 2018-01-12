@@ -15,7 +15,7 @@ namespace eduJSON
     /// ErrorDuplicateElement
     /// </summary>
     [Serializable]
-    public class DuplicateElementException : JSONException, ISerializable
+    public class DuplicateElementException : JSONException
     {
         #region Properties
 

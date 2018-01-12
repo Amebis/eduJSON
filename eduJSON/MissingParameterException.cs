@@ -14,7 +14,7 @@ namespace eduJSON
     /// A required parameter is missing.
     /// </summary>
     [Serializable]
-    public class MissingParameterException : ParameterException, ISerializable
+    public class MissingParameterException : ParameterException
     {
         #region Constructors
 
@@ -34,6 +34,15 @@ namespace eduJSON
         /// <param name="parameter">Parameter name</param>
         public MissingParameterException(string message, string parameter) :
             base(message, parameter)
+        {
+        }
+
+        #endregion
+
+        #region ISerializable Support
+
+        protected MissingParameterException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
 

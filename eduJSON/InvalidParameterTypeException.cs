@@ -15,7 +15,7 @@ namespace eduJSON
     /// Unexpected parameter type.
     /// </summary>
     [Serializable]
-    public class InvalidParameterTypeException : ParameterException, ISerializable
+    public class InvalidParameterTypeException : ParameterException
     {
         #region Properties
 

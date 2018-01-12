@@ -14,7 +14,7 @@ namespace eduJSON
     /// Invalid element name found.
     /// </summary>
     [Serializable]
-    public class InvalidIdentifier : JSONException, ISerializable
+    public class InvalidIdentifier : JSONException
     {
         #region Constructors
 
@@ -36,6 +36,15 @@ namespace eduJSON
         /// <param name="start">Starting offset in <paramref name="code"/></param>
         public InvalidIdentifier(string message, string code, int start) :
             base(message, code, start)
+        {
+        }
+
+        #endregion
+
+        #region ISerializable Support
+
+        protected InvalidIdentifier(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
 

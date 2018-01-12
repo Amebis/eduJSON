@@ -15,7 +15,7 @@ namespace eduJSON
     /// Unacceptable or missing parameter.
     /// </summary>
     [Serializable]
-    public class ParameterException : ApplicationException, ISerializable
+    public class ParameterException : Exception
     {
         #region Members
 

@@ -14,7 +14,7 @@ namespace eduJSON
     /// Missing "," separator or "{0}" parenthesis.
     /// </summary>
     [Serializable]
-    public class MissingSeparatorOrClosingParenthesisException : MissingClosingParenthesisException, ISerializable
+    public class MissingSeparatorOrClosingParenthesisException : MissingClosingParenthesisException
     {
         #region Constructors
 
@@ -38,6 +38,15 @@ namespace eduJSON
         /// <param name="start">Starting offset in <paramref name="code"/></param>
         public MissingSeparatorOrClosingParenthesisException(string message, string parenthesis, string code, int start) :
             base(message, parenthesis, code, start)
+        {
+        }
+
+        #endregion
+
+        #region ISerializable Support
+
+        protected MissingSeparatorOrClosingParenthesisException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
 
