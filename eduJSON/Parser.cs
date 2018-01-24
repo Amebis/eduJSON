@@ -51,7 +51,7 @@ namespace eduJSON
         /// <param name="str">The JSON string to parse</param>
         /// <param name="idx">Starting index in <paramref name="str"/></param>
         /// <param name="keyword">Expected keyword. Should be all-lowercase.</param>
-        /// <returns><c>true</c> when JSON string <paramref name="str"/> at <paramref name="idx"/> matches the keyboard <paramref name="keyword"/>; <c>false</c> otherwise.</returns>
+        /// <returns><c>true</c> when JSON string <paramref name="str"/> at <paramref name="idx"/> matches the keyword <paramref name="keyword"/>; <c>false</c> otherwise.</returns>
         /// <remarks>The JSON string <paramref name="str"/> is converted to lowercase for matching only. Therefore <paramref name="keyword"/> should be given all-lowercase.</remarks>
         private static bool ParseKeyword(string str, ref int idx, string keyword)
         {
@@ -76,7 +76,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="str">The JSON string to parse</param>
         /// <param name="idx">Starting index in <paramref name="str"/></param>
-        /// <returns>The number of type <c>int</c> or <c>double</c> (depending on JSON string <paramref name="str"/> at <paramref name="idx"/>); or <c>null</c> if not-a-number.</returns>
+        /// <returns>The number of type <see cref="int"/> or <see cref="double"/> (depending on JSON string <paramref name="str"/> at <paramref name="idx"/>); or <c>null</c> if not-a-number.</returns>
         private static object ParseNumber(string str, ref int idx)
         {
             int i = idx, n = str.Length;
@@ -210,7 +210,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="str">The JSON string to parse</param>
         /// <param name="idx">Starting index in <paramref name="str"/></param>
-        /// <returns>The string of type <c>string</c>; or <c>null</c> if JSON string <paramref name="str"/> at <paramref name="idx"/> does not represent a string.</returns>
+        /// <returns>The string of type <see cref="string"/>; or <c>null</c> if JSON string <paramref name="str"/> at <paramref name="idx"/> does not represent a string.</returns>
         private static object ParseString(string str, ref int idx)
         {
             int i = idx, n = str.Length;
@@ -287,7 +287,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="str">The JSON string to parse</param>
         /// <param name="idx">Starting index in <paramref name="str"/></param>
-        /// <returns>The string of type <c>string</c>; or <c>null</c> if JSON string <paramref name="str"/> at <paramref name="idx"/> does not represent an identifier.</returns>
+        /// <returns>The string of type <see cref="string"/>; or <c>null</c> if JSON string <paramref name="str"/> at <paramref name="idx"/> does not represent an identifier.</returns>
         private static object ParseIdentifier(string str, ref int idx)
         {
             int i = idx, n = str.Length;
@@ -541,7 +541,7 @@ namespace eduJSON
         /// <summary>
         /// Safely gets a value with name from the dictionary
         /// </summary>
-        /// <typeparam name="T">Requested value type. Can be: <c>bool</c>, <c>int</c>, <c>double</c>, <c>string</c>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
+        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
         /// <param name="dict">Dictionary of name/value pairs</param>
         /// <param name="name">Name of the value</param>
         /// <param name="value">The value</param>
@@ -565,7 +565,7 @@ namespace eduJSON
         /// <summary>
         /// Safely gets a value with name from the dictionary
         /// </summary>
-        /// <typeparam name="T">Requested value type. Can be: <c>bool</c>, <c>int</c>, <c>double</c>, <c>string</c>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
+        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
         /// <param name="dict">Dictionary of name/value pairs</param>
         /// <param name="name">Name of the value</param>
         /// <returns>The value; or throws when <paramref name="name"/> not found in <paramref name="dict"/> or not of type <typeparamref name="T"/>.</returns>
@@ -585,7 +585,7 @@ namespace eduJSON
         /// <summary>
         /// Safely gets a localized value with name from the dictionary
         /// </summary>
-        /// <typeparam name="T">Requested value type. Can be: <c>bool</c>, <c>int</c>, <c>double</c>, <c>string</c>, or <c>List&gt;object&lt;</c></typeparam>
+        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, or <c>List&gt;object&lt;</c></typeparam>
         /// <param name="dict">Dictionary of name/value pairs</param>
         /// <param name="name">Name of the value</param>
         /// <param name="value">The value</param>
@@ -636,7 +636,7 @@ namespace eduJSON
         /// <summary>
         /// Safely gets a localized value with name from the dictionary
         /// </summary>
-        /// <typeparam name="T">Requested value type. Can be: <c>bool</c>, <c>int</c>, <c>double</c>, <c>string</c>, or <c>List&gt;object&lt;</c></typeparam>
+        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, or <c>List&gt;object&lt;</c></typeparam>
         /// <param name="dict">Dictionary of name/value pairs</param>
         /// <param name="name">Name of the value</param>
         /// <returns>The value; or throws when <paramref name="name"/> not found in <paramref name="dict"/> or not of type <typeparamref name="T"/>.</returns>

@@ -19,9 +19,7 @@ namespace eduJSON
     {
         #region Properties
 
-        /// <summary>
-        /// The error message
-        /// </summary>
+        /// <inheritdoc/>
         public override string Message => String.Format(Resources.Strings.ErrorExpectedReceived, base.Message, ExpectedType, ProvidedType);
 
         /// <summary>
@@ -67,6 +65,11 @@ namespace eduJSON
 
         #region ISerializable Support
 
+        /// <summary>
+        /// Deserialize object.
+        /// </summary>
+        /// <param name="info">The <see cref="SerializationInfo"/> populated with data.</param>
+        /// <param name="context">The source of this deserialization.</param>
         protected InvalidParameterTypeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

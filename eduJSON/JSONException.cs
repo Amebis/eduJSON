@@ -86,6 +86,11 @@ namespace eduJSON
 
         #region ISerializable Support
 
+        /// <summary>
+        /// Deserialize object.
+        /// </summary>
+        /// <param name="info">The <see cref="SerializationInfo"/> populated with data.</param>
+        /// <param name="context">The source of this deserialization.</param>
         protected JSONException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
