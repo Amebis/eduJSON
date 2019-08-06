@@ -25,6 +25,11 @@
                 <File Id="eduJSON.resources.dll.sl" Source="sl\eduJSON.resources.dll"/>
             </Component>
         </DirectoryRef>
+        <DirectoryRef Id="RESDIRUK">
+            <Component Id="eduJSON.resources.dll.uk" Guid="{A5B58AD2-6272-4563-99B6-895EDD2476F9}">
+                <File Id="eduJSON.resources.dll.uk" Source="uk\eduJSON.resources.dll"/>
+            </Component>
+        </DirectoryRef>
 
 
         <!--
@@ -34,6 +39,7 @@
             <ComponentRef Id="eduJSON.dll"/>
             <ComponentRef Id="eduJSON.resources.dll.nl"/>
             <ComponentRef Id="eduJSON.resources.dll.sl"/>
+            <ComponentRef Id="eduJSON.resources.dll.uk"/>
         </ComponentGroup>
     </Fragment>
 </Wix>
