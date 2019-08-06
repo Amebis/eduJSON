@@ -15,4 +15,5 @@ build:
 artifacts:
   - path: bin\$(configuration)\$(platform)\eduJSON.dll
   - path: bin\$(configuration)\$(platform)\eduJSON.pdb
+  - path: bin\$(configuration)\$(platform)\nl\eduJSON.resources.dll
   - path: bin\$(configuration)\$(platform)\sl\eduJSON.resources.dll
