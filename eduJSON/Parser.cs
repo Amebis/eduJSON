@@ -25,7 +25,7 @@ namespace eduJSON
         /// <param name="str">The JSON string to parse</param>
         /// <param name="ct">The token to monitor for cancellation requests</param>
         /// <returns>An object representing JSON data</returns>
-        public static object Parse(string str, CancellationToken ct = default(CancellationToken))
+        public static object Parse(string str, CancellationToken ct = default)
         {
             int idx = 0;
 
@@ -551,7 +551,7 @@ namespace eduJSON
         {
             if (!dict.TryGetValue(name, out object obj))
             {
-                value = default(T);
+                value = default;
                 return false;
             }
 
@@ -596,7 +596,7 @@ namespace eduJSON
         {
             if (!dict.TryGetValue(name, out object obj))
             {
-                value = default(T);
+                value = default;
                 return false;
             }
 
