@@ -141,10 +141,10 @@
     <value>Un paramètre requis est manquant.</value>
   </data>
   <data name="ErrorMissingSeparator" xml:space="preserve">
-    <value>Manquant  ":" séparateur.</value>
+    <value>Séparateur ":" manquant.</value>
   </data>
   <data name="ErrorMissingSeparatorOrClosingParenthesis" xml:space="preserve">
-    <value>Manquant "," séparateur ou "{0}" parenthèses.</value>
+    <value>Séparateur "," ou paranthèses "{0}" manquant.</value>
   </data>
   <data name="ErrorParameter" xml:space="preserve">
     <value>{0}(nom du paramètre: {1})</value>
