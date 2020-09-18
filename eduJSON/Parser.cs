@@ -610,8 +610,9 @@ namespace eduJSON
                 if (GetValue<T>(obj_dict, Thread.CurrentThread.CurrentCulture.Name, out value))
                     return true;
 
-                // Fallback to "en-US".
-                if (GetValue<T>(obj_dict, "en-US", out value))
+                // Fallback to "en-US" or "en".
+                if (GetValue<T>(obj_dict, "en-US", out value) ||
+                    GetValue<T>(obj_dict, "en", out value))
                     return true;
 
                 // Fallback to the first value.
@@ -660,8 +661,9 @@ namespace eduJSON
                 if (GetValue<T>(obj_dict, Thread.CurrentThread.CurrentCulture.Name, out value))
                     return value;
 
-                // Fallback to "en-US".
-                if (GetValue<T>(obj_dict, "en-US", out value))
+                // Fallback to "en-US" or "en".
+                if (GetValue<T>(obj_dict, "en-US", out value) ||
+                    GetValue<T>(obj_dict, "en", out value))
                     return value;
 
                 // Fallback to the first value.
