@@ -182,11 +182,15 @@ namespace eduJSON.Tests
             var obj = Parser.Parse("{ \"key1\": \"<language independent>\", \"key2\": { \"de-DE\": \"Sprache\", \"en-US\": \"Language\" }, \"key3\": { \"de-DE\": \"Nur Deutsch\" } }") as Dictionary<string, object>;
 
             {
-                Assert.IsFalse(Parser.GetDictionary<string>(obj, "aaa", out _));
-                Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetDictionary<int>(obj, "key1", out _));
-                Assert.IsTrue(Parser.GetDictionary<string>(obj, "key1", out var key1));
+                var aaa = new Dictionary<string, string>();
+                Assert.IsFalse(Parser.GetDictionary(obj, "aaa", ref aaa));
+                var key1_int = new Dictionary<string, int>();
+                Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetDictionary(obj, "key1", ref key1_int));
+                var key1 = new Dictionary<string, string>();
+                Assert.IsTrue(Parser.GetDictionary(obj, "key1", ref key1));
                 Assert.IsTrue(key1[""] == "<language independent>");
-                Assert.IsTrue(Parser.GetDictionary<string>(obj, "key2", out var key2));
+                var key2 = new Dictionary<string, string>();
+                Assert.IsTrue(Parser.GetDictionary(obj, "key2", ref key2));
                 Assert.IsTrue(key2["en-US"] == "Language");
             }
 
@@ -198,89 +202,6 @@ namespace eduJSON.Tests
                 var key2 = Parser.GetDictionary<string>(obj, "key2");
                 Assert.IsTrue(key2["en-US"] == "Language");
             }
-        }
-
-        [TestMethod()]
-        public void ParseGetLocalizedValueTest()
-        {
-            CultureInfo culture;
-            string val_string;
-            var obj = Parser.Parse("{ \"key1\": \"<language independent>\", \"key2\": { \"de-DE\": \"Sprache\", \"en-US\": \"Language\" }, \"key3\": { \"de-DE\": \"Nur Deutsch\" } }") as Dictionary<string, object>;
-
-            // Set language preference to German (Germany).
-            culture = new CultureInfo("de-DE");
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
-
-            // Function result variant
-            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key1"), "<language independent>");
-            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key2"), "Sprache");
-            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key3"), "Nur Deutsch");
-
-            // Variable reference variant
-            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key1", out val_string) && val_string == "<language independent>");
-            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key2", out val_string) && val_string == "Sprache");
-            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key3", out val_string) && val_string == "Nur Deutsch");
-
-            // Set language preference to Slovenian (Slovenia).
-            culture = new CultureInfo("sl-SI");
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
-
-            // Function result variant
-            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key1"), "<language independent>");
-            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key2"), "Language");
-            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key3"), "Nur Deutsch");
-
-            // Variable reference variant
-            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key1", out val_string) && val_string == "<language independent>");
-            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key2", out val_string) && val_string == "Language");
-            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key3", out val_string) && val_string == "Nur Deutsch");
-
-            // Set language preference to English (U.S.).
-            culture = new CultureInfo("en-US");
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
-
-            // Function result variant
-            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key1"), "<language independent>");
-            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key2"), "Language");
-            Assert.AreEqual(Parser.GetLocalizedValue<string>(obj, "key3"), "Nur Deutsch");
-
-            // Variable reference variant
-            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key1", out val_string) && val_string == "<language independent>");
-            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key2", out val_string) && val_string == "Language");
-            Assert.IsTrue(Parser.GetLocalizedValue(obj, "key3", out val_string) && val_string == "Nur Deutsch");
-
-            // Test failures
-            try
-            {
-                Parser.GetLocalizedValue<string>(obj, "foobar");
-                Assert.Fail("Non-existing parameter found");
-            }
-            catch (MissingParameterException) { }
-
-            try
-            {
-                Parser.GetLocalizedValue<int>(obj, "key2");
-                Assert.Fail("Parameter type mismatch tolerated");
-            }
-            catch (InvalidParameterTypeException) { }
-
-            Assert.IsFalse(Parser.GetValue(obj, "foobar", out val_string));
-
-            try
-            {
-                Parser.GetValue(obj, "key2", out int val_int);
-                Assert.Fail("Parameter type mismatch tolerated");
-            }
-            catch (InvalidParameterTypeException) { }
         }
     }
 }

@@ -589,22 +589,18 @@ namespace eduJSON
         /// <param name="dict">Dictionary of name/value pairs</param>
         /// <param name="name">Name of the dictionary</param>
         /// <param name="value">The dictionary</param>
-        /// <returns><c>true</c> when <paramref name="name"/> found; <c>false</c> otherwise; throws when <paramref name="name"/> not .</returns>
+        /// <returns><c>true</c> when <paramref name="name"/> found; <c>false</c> otherwise.</returns>
         /// <exception cref="InvalidParameterTypeException">Value is not of type <typeparamref name="T"/> or <typeparamref name="Dictionary&lt;string, object&gt;"/> or dictionary items are not of type <typeparamref name="T"/></exception>
         /// <remarks>When the value is not a dictionary, but a single <typeparamref name="T"/> value, a dictionary with &gt;"", value&lt; element is returned. This ambiguates use when <typeparamref name="Dictionary&lt;string, object&gt;"/> type is used.</remarks>
-        public static bool GetDictionary<T>(Dictionary<string, object> dict, string name, out Dictionary<string, T> value)
+        public static bool GetDictionary<T>(Dictionary<string, object> dict, string name, ref Dictionary<string, T> value)
         {
-            if (!dict.TryGetValue(name, out object obj))
-            {
-                value = default;
-                return false;
-            }
+            value.Clear();
 
-            value = new Dictionary<string, T>();
+            if (!dict.TryGetValue(name, out object obj))
+                return false;
+
             if (obj is T obj_t)
-            {
                 value.Add("", obj_t);
-            }
             else if (obj is Dictionary<string, object> obj_dict)
             {
                 foreach (var el in obj_dict)
@@ -638,16 +634,13 @@ namespace eduJSON
 
             var value = new Dictionary<string, T>();
             if (obj is T obj_t)
-            {
                 value.Add("", obj_t);
-            }
             else if (obj is Dictionary<string, object> obj_dict)
             {
                 foreach (var el in obj_dict)
                 {
                     if (el.Value.GetType() != typeof(T))
                         throw new InvalidParameterTypeException(name + "/" + el.Key, typeof(T), el.Value.GetType());
-
                     value.Add(el.Key, (T)el.Value);
                 }
             }
@@ -655,107 +648,6 @@ namespace eduJSON
                 throw new InvalidParameterTypeException(name, typeof(Dictionary<string, object>), obj.GetType());
 
             return value;
-        }
-
-        /// <summary>
-        /// Safely gets a localized value with name from the dictionary
-        /// </summary>
-        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, or <c>List&gt;object&lt;</c></typeparam>
-        /// <param name="dict">Dictionary of name/value pairs</param>
-        /// <param name="name">Name of the value</param>
-        /// <param name="value">The value</param>
-        /// <returns><c>true</c> when <paramref name="name"/> found; <c>false</c> otherwise; throws when <paramref name="name"/> not of type <typeparamref name="T"/>.</returns>
-        /// <remarks>The <typeparamref name="T"/> can not be <c>Dictionary&lt;string, object&gt;</c>, as <c>Dictionary&lt;string, object&gt;</c> is used to store localized versions.</remarks>
-        /// <exception cref="InvalidParameterTypeException">Wrong type of value</exception>
-        public static bool GetLocalizedValue<T>(Dictionary<string, object> dict, string name, out T value)
-        {
-            if (!dict.TryGetValue(name, out object obj))
-            {
-                value = default;
-                return false;
-            }
-
-            if (obj is Dictionary<string, object> obj_dict)
-            {
-                // Load value according to thread UI culture.
-                if (GetValue<T>(obj_dict, Thread.CurrentThread.CurrentUICulture.Name, out value))
-                    return true;
-
-                // Load value according to thread culture.
-                if (GetValue<T>(obj_dict, Thread.CurrentThread.CurrentCulture.Name, out value))
-                    return true;
-
-                // Fallback to "en-US" or "en".
-                if (GetValue<T>(obj_dict, "en-US", out value) ||
-                    GetValue<T>(obj_dict, "en", out value))
-                    return true;
-
-                // Fallback to the first value.
-                foreach (var obj_first in obj_dict.Values)
-                {
-                    if (obj_first.GetType() != typeof(T))
-                        throw new InvalidParameterTypeException(name, typeof(T), obj_first.GetType());
-
-                    value = (T)obj_first;
-                    return true;
-                }
-
-                return false;
-            }
-            else if (obj.GetType() != typeof(T))
-                throw new InvalidParameterTypeException(name, typeof(T), obj.GetType());
-
-            value = (T)obj;
-            return true;
-        }
-
-        /// <summary>
-        /// Safely gets a localized value with name from the dictionary
-        /// </summary>
-        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, or <c>List&gt;object&lt;</c></typeparam>
-        /// <param name="dict">Dictionary of name/value pairs</param>
-        /// <param name="name">Name of the value</param>
-        /// <returns>The value; or throws when <paramref name="name"/> not found in <paramref name="dict"/> or not of type <typeparamref name="T"/>.</returns>
-        /// <remarks>The <typeparamref name="T"/> can not be <c>Dictionary&lt;string, object&gt;</c>, as <c>Dictionary&lt;string, object&gt;</c> is used to store localized versions.</remarks>
-        /// <exception cref="MissingParameterException">Value not found</exception>
-        /// <exception cref="InvalidParameterTypeException">Wrong type of value</exception>
-        public static T GetLocalizedValue<T>(Dictionary<string, object> dict, string name)
-        {
-            if (!dict.TryGetValue(name, out object obj))
-                throw new MissingParameterException(name);
-
-            if (obj is Dictionary<string, object> obj_dict)
-            {
-                T value;
-
-                // Load value according to thread UI culture.
-                if (GetValue<T>(obj_dict, Thread.CurrentThread.CurrentUICulture.Name, out value))
-                    return value;
-
-                // Load value according to thread culture.
-                if (GetValue<T>(obj_dict, Thread.CurrentThread.CurrentCulture.Name, out value))
-                    return value;
-
-                // Fallback to "en-US" or "en".
-                if (GetValue<T>(obj_dict, "en-US", out value) ||
-                    GetValue<T>(obj_dict, "en", out value))
-                    return value;
-
-                // Fallback to the first value.
-                foreach (var obj_first in obj_dict.Values)
-                {
-                    if (obj_first.GetType() != typeof(T))
-                        throw new InvalidParameterTypeException(name, typeof(T), obj_first.GetType());
-
-                    return (T)obj_first;
-                }
-
-                throw new MissingParameterException(name);
-            }
-            else if (obj.GetType() != typeof(T))
-                throw new InvalidParameterTypeException(name, typeof(T), obj.GetType());
-
-            return (T)obj;
         }
 
         #endregion
