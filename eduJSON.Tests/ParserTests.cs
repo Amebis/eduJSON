@@ -7,8 +7,6 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
 
 namespace eduJSON.Tests
 {
@@ -73,64 +71,20 @@ namespace eduJSON.Tests
                     { "k2", "test2" }
                 }, (Dictionary<string, object>)obj_dict["key3"], "Child element mismatch");
 
-            try
-            {
-                Parser.Parse("[1, 2");
-                Assert.Fail("Missing \"[\" parenthesis tolerated");
-            }
-            catch (MissingClosingParenthesisException) { }
-            try
-            {
-                Parser.Parse("[1 2]");
-                Assert.Fail("Missing separator tolerated");
-            }
-            catch (MissingSeparatorOrClosingParenthesisException) { }
-            try
-            {
-                Parser.Parse("{ \"k1\": 1, \"k2\": 2");
-                Assert.Fail("Missing \"}\" parenthesis tolerated");
-            }
-            catch (MissingClosingParenthesisException) { }
-            try
-            {
-                Parser.Parse("{ \"k1\": 1 \"k2\": 2 }");
-                Assert.Fail("Missing separator tolerated");
-            }
-            catch (MissingSeparatorOrClosingParenthesisException) { }
-            try
-            {
-                Parser.Parse("{ \"key\"  \"value\" }");
-                Assert.Fail("Missing separator tolerated");
-            }
-            catch (MissingSeparatorException) { }
-            try
-            {
-                Parser.Parse("{ \"k1\": 1, $$$: 2 }");
-                Assert.Fail("Invalid identifier tolerated");
-            }
-            catch (InvalidIdentifier) { }
-            try
-            {
-                Parser.Parse("{ \"k1\": 1, \"k1\": 2 }");
-                Assert.Fail("Duplicate element tolerated");
-            }
-            catch (DuplicateElementException) { }
+            Assert.ThrowsException<MissingClosingParenthesisException>(() => Parser.Parse("[1, 2"));
+            Assert.ThrowsException<MissingSeparatorOrClosingParenthesisException>(() => Parser.Parse("[1 2]"));
+            Assert.ThrowsException<MissingClosingParenthesisException>(() => Parser.Parse("{ \"k1\": 1, \"k2\": 2"));
+            Assert.ThrowsException<MissingSeparatorOrClosingParenthesisException>(() => Parser.Parse("{ \"k1\": 1 \"k2\": 2 }"));
+            Assert.ThrowsException<MissingSeparatorException>(() => Parser.Parse("{ \"key\"  \"value\" }"));
+            Assert.ThrowsException<InvalidIdentifier>(() => Parser.Parse("{ \"k1\": 1, $$$: 2 }"));
+            Assert.ThrowsException<DuplicateElementException>(() => Parser.Parse("{ \"k1\": 1, \"k1\": 2 }"));
         }
 
         [TestMethod()]
         public void ParseIssuesTest()
         {
-            try
-            {
-                Parser.Parse("   false\r\nTrailing data");
-                Assert.Fail("Trailing JSON data tolerated");
-            } catch (TrailingDataException) {}
-            try
-            {
-                Parser.Parse("abc");
-                Assert.Fail("Unknown JSON value tolerated");
-            }
-            catch (UnknownValueException) { }
+            Assert.ThrowsException<TrailingDataException>(() => Parser.Parse("   false\r\nTrailing data"));
+            Assert.ThrowsException<UnknownValueException>(() => Parser.Parse("abc"));
         }
 
         [TestMethod()]
@@ -145,19 +99,8 @@ namespace eduJSON.Tests
             CollectionAssert.AreEqual(Parser.GetValue<List<object>>(obj, "k_array"), new List<object>() { 1, 2, 3 });
             CollectionAssert.AreEqual(Parser.GetValue<Dictionary<string, object>>(obj, "k_dict"), new Dictionary<string, object>());
 
-            try
-            {
-                Parser.GetValue<string>(obj, "foobar");
-                Assert.Fail("Non-existing parameter found");
-            }
-            catch (MissingParameterException) { }
-
-            try
-            {
-                Parser.GetValue<int>(obj, "k_string");
-                Assert.Fail("Parameter type mismatch tolerated");
-            }
-            catch (InvalidParameterTypeException) { }
+            Assert.ThrowsException<MissingParameterException>(() => Parser.GetValue<string>(obj, "foobar"));
+            Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetValue<int>(obj, "k_string"));
 
             // Variable reference variant
             Assert.IsTrue(Parser.GetValue(obj, "k_string", out string val_string) && val_string == "abc");
@@ -168,12 +111,7 @@ namespace eduJSON.Tests
 
             Assert.IsFalse(Parser.GetValue(obj, "foobar", out val_string));
 
-            try
-            {
-                Parser.GetValue(obj, "k_string", out val_int);
-                Assert.Fail("Parameter type mismatch tolerated");
-            }
-            catch (InvalidParameterTypeException) { }
+            Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetValue(obj, "k_string", out val_int));
         }
 
         [TestMethod()]
