@@ -177,6 +177,30 @@ namespace eduJSON.Tests
         }
 
         [TestMethod()]
+        public void ParseGetDictionaryTest()
+        {
+            var obj = Parser.Parse("{ \"key1\": \"<language independent>\", \"key2\": { \"de-DE\": \"Sprache\", \"en-US\": \"Language\" }, \"key3\": { \"de-DE\": \"Nur Deutsch\" } }") as Dictionary<string, object>;
+
+            {
+                Assert.IsFalse(Parser.GetDictionary<string>(obj, "aaa", out _));
+                Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetDictionary<int>(obj, "key1", out _));
+                Assert.IsTrue(Parser.GetDictionary<string>(obj, "key1", out var key1));
+                Assert.IsTrue(key1[""] == "<language independent>");
+                Assert.IsTrue(Parser.GetDictionary<string>(obj, "key2", out var key2));
+                Assert.IsTrue(key2["en-US"] == "Language");
+            }
+
+            {
+                Assert.ThrowsException<MissingParameterException>(() => Parser.GetDictionary<string>(obj, "aaa"));
+                Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetDictionary<int>(obj, "key1"));
+                var key1 = Parser.GetDictionary<string>(obj, "key1");
+                Assert.IsTrue(key1[""] == "<language independent>");
+                var key2 = Parser.GetDictionary<string>(obj, "key2");
+                Assert.IsTrue(key2["en-US"] == "Language");
+            }
+        }
+
+        [TestMethod()]
         public void ParseGetLocalizedValueTest()
         {
             CultureInfo culture;

@@ -583,6 +583,81 @@ namespace eduJSON
         }
 
         /// <summary>
+        /// Safely gets a named dictionary of values
+        /// </summary>
+        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
+        /// <param name="dict">Dictionary of name/value pairs</param>
+        /// <param name="name">Name of the dictionary</param>
+        /// <param name="value">The dictionary</param>
+        /// <returns><c>true</c> when <paramref name="name"/> found; <c>false</c> otherwise; throws when <paramref name="name"/> not .</returns>
+        /// <exception cref="InvalidParameterTypeException">Value is not of type <typeparamref name="T"/> or <typeparamref name="Dictionary&lt;string, object&gt;"/> or dictionary items are not of type <typeparamref name="T"/></exception>
+        /// <remarks>When the value is not a dictionary, but a single <typeparamref name="T"/> value, a dictionary with &gt;"", value&lt; element is returned. This ambiguates use when <typeparamref name="Dictionary&lt;string, object&gt;"/> type is used.</remarks>
+        public static bool GetDictionary<T>(Dictionary<string, object> dict, string name, out Dictionary<string, T> value)
+        {
+            if (!dict.TryGetValue(name, out object obj))
+            {
+                value = default;
+                return false;
+            }
+
+            value = new Dictionary<string, T>();
+            if (obj is T obj_t)
+            {
+                value.Add("", obj_t);
+            }
+            else if (obj is Dictionary<string, object> obj_dict)
+            {
+                foreach (var el in obj_dict)
+                {
+                    if (el.Value.GetType() != typeof(T))
+                        throw new InvalidParameterTypeException(name + "/" + el.Key, typeof(T), el.Value.GetType());
+
+                    value.Add(el.Key, (T)el.Value);
+                }
+            }
+            else
+                throw new InvalidParameterTypeException(name, typeof(Dictionary<string, object>), obj.GetType());
+
+            return true;
+        }
+
+        /// <summary>
+        /// Safely gets a named dictionary of values
+        /// </summary>
+        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
+        /// <param name="dict">Dictionary of name/value pairs</param>
+        /// <param name="name">Name of the dictionary</param>
+        /// <returns>The dictionary</returns>
+        /// <exception cref="MissingParameterException">Value not found</exception>
+        /// <exception cref="InvalidParameterTypeException">Value is not of type <typeparamref name="T"/> or <typeparamref name="Dictionary&lt;string, object&gt;"/> or dictionary items are not of type <typeparamref name="T"/></exception>
+        /// <remarks>When the value is not a dictionary, but a single <typeparamref name="T"/> value, a dictionary with &gt;"", value&lt; element is returned. This ambiguates use when <typeparamref name="Dictionary&lt;string, object&gt;"/> type is used.</remarks>
+        public static Dictionary<string, T> GetDictionary<T>(Dictionary<string, object> dict, string name)
+        {
+            if (!dict.TryGetValue(name, out object obj))
+                throw new MissingParameterException(name);
+
+            var value = new Dictionary<string, T>();
+            if (obj is T obj_t)
+            {
+                value.Add("", obj_t);
+            }
+            else if (obj is Dictionary<string, object> obj_dict)
+            {
+                foreach (var el in obj_dict)
+                {
+                    if (el.Value.GetType() != typeof(T))
+                        throw new InvalidParameterTypeException(name + "/" + el.Key, typeof(T), el.Value.GetType());
+
+                    value.Add(el.Key, (T)el.Value);
+                }
+            }
+            else
+                throw new InvalidParameterTypeException(name, typeof(Dictionary<string, object>), obj.GetType());
+
+            return value;
+        }
+
+        /// <summary>
         /// Safely gets a localized value with name from the dictionary
         /// </summary>
         /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, or <c>List&gt;object&lt;</c></typeparam>
