@@ -15,7 +15,7 @@ namespace eduJSON
     /// <summary>
     /// JSON parser
     /// </summary>
-    public class Parser
+    public static class Parser
     {
         #region Methods
 
