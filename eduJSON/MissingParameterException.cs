@@ -6,6 +6,7 @@
 */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace eduJSON
@@ -14,6 +15,7 @@ namespace eduJSON
     /// A required parameter is missing.
     /// </summary>
     [Serializable]
+    [SuppressMessage("Design", "CA1032:Implement standard exception constructors", Justification = "Never contains inner exceptions")]
     public class MissingParameterException : ParameterException
     {
         #region Constructors
