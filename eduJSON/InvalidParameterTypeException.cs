@@ -42,10 +42,10 @@ namespace eduJSON
         /// Constructs an exception
         /// </summary>
         /// <param name="parameter">Parameter name</param>
-        /// <param name="expected_type">Expected type</param>
-        /// <param name="provided_type">Provided type</param>
-        public InvalidParameterTypeException(string parameter, Type expected_type, Type provided_type) :
-            this(Resources.Strings.ErrorInvalidParameterType, parameter, expected_type, provided_type)
+        /// <param name="expectedType">Expected type</param>
+        /// <param name="providedType">Provided type</param>
+        public InvalidParameterTypeException(string parameter, Type expectedType, Type providedType) :
+            this(Resources.Strings.ErrorInvalidParameterType, parameter, expectedType, providedType)
         {
         }
 
@@ -54,13 +54,13 @@ namespace eduJSON
         /// </summary>
         /// <param name="message">Exception message</param>
         /// <param name="parameter">Parameter name</param>
-        /// <param name="expected_type">Expected type</param>
-        /// <param name="provided_type">Provided type</param>
-        public InvalidParameterTypeException(string message, string parameter, Type expected_type, Type provided_type) :
+        /// <param name="expectedType">Expected type</param>
+        /// <param name="providedType">Provided type</param>
+        public InvalidParameterTypeException(string message, string parameter, Type expectedType, Type providedType) :
             base(message, parameter)
         {
-            ExpectedType = expected_type;
-            ProvidedType = provided_type;
+            ExpectedType = expectedType;
+            ProvidedType = providedType;
         }
 
         #endregion

@@ -54,9 +54,9 @@ namespace eduJSON.Tests
         {
             // CollectionAssert.AreEqual() does not work for sub-collections; Check manually.
             object obj = Parser.Parse("{ \"key1\" : true , \"key2\" : [ 1, 2, 3, 4, 5], \"key3\" : { \"k1\": \"test1\", k2:\"test2\"}}");
-            Dictionary<string, object> obj_dict = (Dictionary<string, object>)obj;
-            Assert.AreEqual(3, obj_dict.Count, "Incorrect number of child elements");
-            Assert.AreEqual(true, obj_dict["key1"], "Child element mismatch");
+            Dictionary<string, object> objDict = (Dictionary<string, object>)obj;
+            Assert.AreEqual(3, objDict.Count, "Incorrect number of child elements");
+            Assert.AreEqual(true, objDict["key1"], "Child element mismatch");
             CollectionAssert.AreEqual(new List<object>
                 {
                     1,
@@ -64,12 +64,12 @@ namespace eduJSON.Tests
                     3,
                     4,
                     5
-                }, (List<object>)obj_dict["key2"], "Child element mismatch");
+                }, (List<object>)objDict["key2"], "Child element mismatch");
             CollectionAssert.AreEqual(new Dictionary<string, object>
                 {
                     { "k1", "test1" },
                     { "k2", "test2" }
-                }, (Dictionary<string, object>)obj_dict["key3"], "Child element mismatch");
+                }, (Dictionary<string, object>)objDict["key3"], "Child element mismatch");
 
             Assert.ThrowsException<MissingClosingParenthesisException>(() => Parser.Parse("[1, 2"));
             Assert.ThrowsException<MissingSeparatorOrClosingParenthesisException>(() => Parser.Parse("[1 2]"));

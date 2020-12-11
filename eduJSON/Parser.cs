@@ -123,8 +123,8 @@ namespace eduJSON
                     else
                         return null;
 
-                    double value_f = value;
-                    bool is_f = false;
+                    double valueF = value;
+                    bool isF = false;
 
                     if (i < n && str[i] == '.')
                     {
@@ -142,8 +142,8 @@ namespace eduJSON
                                 c *= 10;
                             }
 
-                            value_f += (double)digital / c;
-                            is_f = true;
+                            valueF += (double)digital / c;
+                            isF = true;
                         }
                         else
                             return null;
@@ -153,23 +153,23 @@ namespace eduJSON
                     {
                         // Exponential part.
                         i++;
-                        bool e_positive;
+                        bool ePositive;
                         if (str[i] == '-')
                         {
                             // The exponent will be negative.
-                            e_positive = false;
+                            ePositive = false;
                             i++;
                         }
                         else if (str[i] == '+')
                         {
                             // The exponent will be positive.
-                            e_positive = true;
+                            ePositive = true;
                             i++;
                         }
                         else
                         {
                             // Default exponent sign is positive.
-                            e_positive = true;
+                            ePositive = true;
                         }
 
                         if (i < n && '0' <= str[i] && str[i] <= '9')
@@ -181,18 +181,18 @@ namespace eduJSON
                             for (; i < n && '0' <= str[i] && str[i] <= '9'; i++)
                                 exp = exp * 10 + (int)(str[i] - '0');
 
-                            value_f *= Math.Pow(10, e_positive ? exp : -exp);
-                            is_f = true;
+                            valueF *= Math.Pow(10, ePositive ? exp : -exp);
+                            isF = true;
                         }
                         else
                             return null;
                     }
 
                     idx = i;
-                    if (is_f)
+                    if (isF)
                     {
                         // Return number as "double".
-                        return positive ? value_f : -value_f;
+                        return positive ? valueF : -valueF;
                     }
                     else
                     {
@@ -361,9 +361,9 @@ namespace eduJSON
                 case '[':
                     {
                         // An array was found.
-                        int array_origin = idx;
+                        int arrayOrigin = idx;
                         List<object> obj = new List<object>();
-                        bool is_empty = true, has_separator = false;
+                        bool isEmpty = true, hasSeparator = false;
 
                         for (idx++; idx < str.Length;)
                         {
@@ -378,11 +378,11 @@ namespace eduJSON
                                 idx++;
                                 return obj;
                             }
-                            else if (is_empty || has_separator)
+                            else if (isEmpty || hasSeparator)
                             {
                                 // Analyse value recursively, and add it.
                                 obj.Add(ParseValue(str, ref idx, ct));
-                                is_empty = false;
+                                isEmpty = false;
 
                                 // Skip trailing spaces and comments.
                                 SkipSpace(str, ref idx);
@@ -391,24 +391,24 @@ namespace eduJSON
                                 {
                                     // A separator has been found. Skip it.
                                     idx++;
-                                    has_separator = true;
+                                    hasSeparator = true;
                                 }
                                 else
-                                    has_separator = false;
+                                    hasSeparator = false;
                             }
                             else
                                 throw new MissingSeparatorOrClosingParenthesisException("]", str, idx);
                         }
 
-                        throw new MissingClosingParenthesisException("]", str, array_origin);
+                        throw new MissingClosingParenthesisException("]", str, arrayOrigin);
                     }
 
                 case '{':
                     {
                         // An object has been found.
-                        int object_origin = idx;
+                        int objectOrigin = idx;
                         Dictionary<string, object> obj = new Dictionary<string, object>();
-                        bool is_empty = true, has_separator = false;
+                        bool isEmpty = true, hasSeparator = false;
 
                         for (idx++; idx < str.Length;)
                         {
@@ -423,15 +423,15 @@ namespace eduJSON
                                 idx++;
                                 return obj;
                             }
-                            else if (is_empty || has_separator)
+                            else if (isEmpty || hasSeparator)
                             {
-                                int identifier_origin = idx;
+                                int identifierOrigin = idx;
                                 object key = ParseIdentifier(str, ref idx);
                                 if (key != null)
                                 {
                                     // An element key has been found.
                                     if (obj.ContainsKey((string)key))
-                                        throw new DuplicateElementException((string)key, str, identifier_origin);
+                                        throw new DuplicateElementException((string)key, str, identifierOrigin);
 
                                     // Skip trailing spaces and comments.
                                     SkipSpace(str, ref idx);
@@ -446,7 +446,7 @@ namespace eduJSON
 
                                         // Analyse value recursively, and add it.
                                         obj.Add((string)key, ParseValue(str, ref idx, ct));
-                                        is_empty = false;
+                                        isEmpty = false;
 
                                         // Skip trailing spaces and comments.
                                         SkipSpace(str, ref idx);
@@ -455,10 +455,10 @@ namespace eduJSON
                                         {
                                             // A separator has been found. Skip it.
                                             idx++;
-                                            has_separator = true;
+                                            hasSeparator = true;
                                         }
                                         else
-                                            has_separator = false;
+                                            hasSeparator = false;
                                     }
                                     else
                                         throw new MissingSeparatorException(str, idx);
@@ -469,7 +469,7 @@ namespace eduJSON
                             else
                                 throw new MissingSeparatorOrClosingParenthesisException("}", str, idx);
                         }
-                        throw new MissingClosingParenthesisException("}", str, object_origin);
+                        throw new MissingClosingParenthesisException("}", str, objectOrigin);
                     }
             }
 
@@ -599,11 +599,11 @@ namespace eduJSON
             if (!dict.TryGetValue(name, out object obj))
                 return false;
 
-            if (obj is T obj_t)
-                value.Add("", obj_t);
-            else if (obj is Dictionary<string, object> obj_dict)
+            if (obj is T objT)
+                value.Add("", objT);
+            else if (obj is Dictionary<string, object> objDict)
             {
-                foreach (var el in obj_dict)
+                foreach (var el in objDict)
                 {
                     if (el.Value.GetType() != typeof(T))
                         throw new InvalidParameterTypeException(name + "/" + el.Key, typeof(T), el.Value.GetType());
@@ -633,11 +633,11 @@ namespace eduJSON
                 throw new MissingParameterException(name);
 
             var value = new Dictionary<string, T>();
-            if (obj is T obj_t)
-                value.Add("", obj_t);
-            else if (obj is Dictionary<string, object> obj_dict)
+            if (obj is T objT)
+                value.Add("", objT);
+            else if (obj is Dictionary<string, object> objDict)
             {
-                foreach (var el in obj_dict)
+                foreach (var el in objDict)
                 {
                     if (el.Value.GetType() != typeof(T))
                         throw new InvalidParameterTypeException(name + "/" + el.Key, typeof(T), el.Value.GetType());
