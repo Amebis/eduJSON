@@ -592,7 +592,7 @@ namespace eduJSON
         /// <returns><c>true</c> when <paramref name="name"/> found; <c>false</c> otherwise.</returns>
         /// <exception cref="InvalidParameterTypeException">Value is not of type <typeparamref name="T"/> or <typeparamref name="Dictionary&lt;string, object&gt;"/> or dictionary items are not of type <typeparamref name="T"/></exception>
         /// <remarks>When the value is not a dictionary, but a single <typeparamref name="T"/> value, a dictionary with &gt;"", value&lt; element is returned. This ambiguates use when <typeparamref name="Dictionary&lt;string, object&gt;"/> type is used.</remarks>
-        public static bool GetDictionary<T>(Dictionary<string, object> dict, string name, ref Dictionary<string, T> value)
+        public static bool GetDictionary<T>(Dictionary<string, object> dict, string name, Dictionary<string, T> value)
         {
             value.Clear();
 

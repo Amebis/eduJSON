@@ -121,14 +121,14 @@ namespace eduJSON.Tests
 
             {
                 var aaa = new Dictionary<string, string>();
-                Assert.IsFalse(Parser.GetDictionary(obj, "aaa", ref aaa));
+                Assert.IsFalse(Parser.GetDictionary(obj, "aaa", aaa));
                 var key1_int = new Dictionary<string, int>();
-                Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetDictionary(obj, "key1", ref key1_int));
+                Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetDictionary(obj, "key1", key1_int));
                 var key1 = new Dictionary<string, string>();
-                Assert.IsTrue(Parser.GetDictionary(obj, "key1", ref key1));
+                Assert.IsTrue(Parser.GetDictionary(obj, "key1", key1));
                 Assert.IsTrue(key1[""] == "<language independent>");
                 var key2 = new Dictionary<string, string>();
-                Assert.IsTrue(Parser.GetDictionary(obj, "key2", ref key2));
+                Assert.IsTrue(Parser.GetDictionary(obj, "key2", key2));
                 Assert.IsTrue(key2["en-US"] == "Language");
             }
 
