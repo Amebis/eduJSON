@@ -37,7 +37,7 @@ namespace eduJSON
         /// <param name="code">JSON code</param>
         /// <param name="start">Starting offset in <paramref name="code"/></param>
         public DuplicateElementException(string name, string code, int start) :
-            this(String.Format(Resources.Strings.ErrorDuplicateElement, name), name, code, start)
+            this(string.Format(Resources.Strings.ErrorDuplicateElement, name), name, code, start)
         {
         }
 

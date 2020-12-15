@@ -22,7 +22,7 @@ namespace eduJSON
         #region Members
 
         /// <inheritdoc/>
-        public override string Message => ParameterName != null ? String.Format(Resources.Strings.ErrorParameter, base.Message, ParameterName) : base.Message;
+        public override string Message => ParameterName != null ? string.Format(Resources.Strings.ErrorParameter, base.Message, ParameterName) : base.Message;
 
         /// <summary>
         /// Parameter name

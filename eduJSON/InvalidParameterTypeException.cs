@@ -22,7 +22,7 @@ namespace eduJSON
         #region Properties
 
         /// <inheritdoc/>
-        public override string Message => String.Format(Resources.Strings.ErrorExpectedReceived, base.Message, ExpectedType, ProvidedType);
+        public override string Message => string.Format(Resources.Strings.ErrorExpectedReceived, base.Message, ExpectedType, ProvidedType);
 
         /// <summary>
         /// The expected type of parameter
