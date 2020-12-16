@@ -52,7 +52,7 @@ namespace eduJSON
         /// <summary>
         /// Constructs an exception
         /// </summary>
-        /// <param name="message">Exception message</param>
+        /// <param name="message">The error message that explains the reason for the exception.</param>
         /// <param name="parameter">Parameter name</param>
         /// <param name="expectedType">Expected type</param>
         /// <param name="providedType">Provided type</param>

@@ -34,7 +34,7 @@ namespace eduJSON
         /// <summary>
         /// Constructs an exception
         /// </summary>
-        /// <param name="message">Exception message</param>
+        /// <param name="message">The error message that explains the reason for the exception.</param>
         /// <param name="parenthesis">Parenthesis</param>
         /// <param name="code">JSON code</param>
         /// <param name="start">Starting offset in <paramref name="code"/></param>
