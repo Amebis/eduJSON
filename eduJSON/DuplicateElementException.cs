@@ -6,7 +6,6 @@
 */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -16,7 +15,6 @@ namespace eduJSON
     /// ErrorDuplicateElement
     /// </summary>
     [Serializable]
-    [SuppressMessage("Design", "CA1032:Implement standard exception constructors", Justification = "Never contains inner exceptions")]
     public class DuplicateElementException : JSONException
     {
         #region Properties

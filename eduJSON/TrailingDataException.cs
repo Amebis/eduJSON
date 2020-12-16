@@ -6,7 +6,6 @@
 */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace eduJSON
@@ -15,7 +14,6 @@ namespace eduJSON
     /// Unexpected trailing data found.
     /// </summary>
     [Serializable]
-    [SuppressMessage("Design", "CA1032:Implement standard exception constructors", Justification = "Never contains inner exceptions")]
     public class TrailingDataException : JSONException
     {
         #region Constructors
