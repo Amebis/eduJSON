@@ -220,7 +220,7 @@ namespace eduJSON
                 // Opening quote found.
                 i++;
                 StringBuilder res = new StringBuilder(n);
-                for (; i < n; )
+                for (; i < n;)
                 {
                     char chr = str[i];
                     if (chr == '"')
