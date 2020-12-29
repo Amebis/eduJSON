@@ -40,6 +40,11 @@
                 <File Id="eduJSON.resources.dll.sl" Source="sl\eduJSON.resources.dll"/>
             </Component>
         </DirectoryRef>
+        <DirectoryRef Id="RESDIRTR">
+            <Component Id="eduJSON.resources.dll.tr" Guid="{00C2F7DF-3610-47C8-B39D-4F563A80696E}">
+                <File Id="eduJSON.resources.dll.tr" Source="tr\eduJSON.resources.dll"/>
+            </Component>
+        </DirectoryRef>
         <DirectoryRef Id="RESDIRUK">
             <Component Id="eduJSON.resources.dll.uk" Guid="{A5B58AD2-6272-4563-99B6-895EDD2476F9}">
                 <File Id="eduJSON.resources.dll.uk" Source="uk\eduJSON.resources.dll"/>
@@ -57,6 +62,7 @@
             <ComponentRef Id="eduJSON.resources.dll.fr"/>
             <ComponentRef Id="eduJSON.resources.dll.nl"/>
             <ComponentRef Id="eduJSON.resources.dll.sl"/>
+            <ComponentRef Id="eduJSON.resources.dll.tr"/>
             <ComponentRef Id="eduJSON.resources.dll.uk"/>
         </ComponentGroup>
     </Fragment>
