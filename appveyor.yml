@@ -13,6 +13,4 @@ build:
   parallel: true
   verbosity: minimal
 artifacts:
-  - path: bin\$(configuration)\$(platform)\eduJSON.dll
-  - path: bin\$(configuration)\$(platform)\eduJSON.pdb
-  - path: bin\$(configuration)\$(platform)\*\eduJSON.resources.dll
+  - path: bin\$(configuration)\$(platform)
