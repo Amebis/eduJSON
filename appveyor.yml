@@ -6,6 +6,7 @@ configuration:
   - Debug
   - Release
 platform:
+  - Any CPU
   - x86
   - x64
 build:
