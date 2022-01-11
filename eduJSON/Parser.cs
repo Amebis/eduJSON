@@ -27,13 +27,13 @@ namespace eduJSON
         /// <returns>An object representing JSON data</returns>
         public static object Parse(string str, CancellationToken ct = default)
         {
-            int idx = 0;
+            var idx = 0;
 
             // Skip leading spaces and comments.
             SkipSpace(str, ref idx);
 
             // Parse the root value.
-            object obj = ParseValue(str, ref idx, ct);
+            var obj = ParseValue(str, ref idx, ct);
 
             // Skip trailing spaces and comments.
             SkipSpace(str, ref idx);
@@ -55,13 +55,13 @@ namespace eduJSON
         /// <remarks>The JSON string <paramref name="str"/> is converted to lowercase for matching only. Therefore <paramref name="keyword"/> should be given all-lowercase.</remarks>
         private static bool ParseKeyword(string str, ref int idx, string keyword)
         {
-            int len = keyword.Length;
+            var len = keyword.Length;
 
             if (idx + len <= str.Length && str.Substring(idx, len).ToLower() == keyword)
             {
                 // Keyword found. Check that non-identifier character follows.
-                int i = idx + len;
-                if (i >= str.Length || (!char.IsLetterOrDigit(str[i]) && str[i] != '_'))
+                var i = idx + len;
+                if (i >= str.Length || !char.IsLetterOrDigit(str[i]) && str[i] != '_')
                 {
                     idx += len;
                     return true;
@@ -76,7 +76,7 @@ namespace eduJSON
         /// </summary>
         /// <param name="str">The JSON string to parse</param>
         /// <param name="idx">Starting index in <paramref name="str"/></param>
-        /// <returns>The number of type <see cref="int"/> or <see cref="double"/> (depending on JSON string <paramref name="str"/> at <paramref name="idx"/>); or <c>null</c> if not-a-number.</returns>
+        /// <returns>The number of type <see cref="long"/> or <see cref="double"/> (depending on JSON string <paramref name="str"/> at <paramref name="idx"/>); or <c>null</c> if not-a-number.</returns>
         private static object ParseNumber(string str, ref int idx)
         {
             int i = idx, n = str.Length;
@@ -104,7 +104,7 @@ namespace eduJSON
 
                 if (i < n)
                 {
-                    uint value;
+                    ulong value;
                     if (str[i] == '0')
                     {
                         // The integer part is 0.
@@ -124,7 +124,7 @@ namespace eduJSON
                         return null;
 
                     double valueF = value;
-                    bool isF = false;
+                    var isF = false;
 
                     if (i < n && str[i] == '.')
                     {
@@ -132,7 +132,7 @@ namespace eduJSON
                         i++;
                         if (i < n && '0' <= str[i] && str[i] <= '9')
                         {
-                            uint c = 10, digital = (uint)(str[i] - '0');
+                            ulong c = 10, digital = (uint)(str[i] - '0');
                             i++;
 
                             // Parse the digital part.
@@ -174,12 +174,12 @@ namespace eduJSON
 
                         if (i < n && '0' <= str[i] && str[i] <= '9')
                         {
-                            int exp = (int)(str[i] - '0');
+                            var exp = str[i] - '0';
                             i++;
 
                             // Parse rest of the number.
                             for (; i < n && '0' <= str[i] && str[i] <= '9'; i++)
-                                exp = exp * 10 + (int)(str[i] - '0');
+                                exp = exp * 10 + (str[i] - '0');
 
                             valueF *= Math.Pow(10, ePositive ? exp : -exp);
                             isF = true;
@@ -190,15 +190,9 @@ namespace eduJSON
 
                     idx = i;
                     if (isF)
-                    {
-                        // Return number as "double".
                         return positive ? valueF : -valueF;
-                    }
                     else
-                    {
-                        // Return number as unsigned integer.
-                        return positive ? (int)value : -(int)value;
-                    }
+                        return positive ? (long)value : -(long)value;
                 }
             }
 
@@ -219,10 +213,10 @@ namespace eduJSON
             {
                 // Opening quote found.
                 i++;
-                StringBuilder res = new StringBuilder(n);
+                var res = new StringBuilder(n);
                 for (; i < n;)
                 {
-                    char chr = str[i];
+                    var chr = str[i];
                     if (chr == '"')
                     {
                         // Closing quote found.
@@ -304,7 +298,7 @@ namespace eduJSON
 
                 if (idx < i)
                 {
-                    string res = str.Substring(idx, i - idx);
+                    var res = str.Substring(idx, i - idx);
                     idx = i;
                     return res;
                 }
@@ -345,13 +339,13 @@ namespace eduJSON
             }
 
             {
-                object obj = ParseNumber(str, ref idx);
+                var obj = ParseNumber(str, ref idx);
                 if (obj != null)
                     return obj;
             }
 
             {
-                object obj = ParseString(str, ref idx);
+                var obj = ParseString(str, ref idx);
                 if (obj != null)
                     return obj;
             }
@@ -361,8 +355,8 @@ namespace eduJSON
                 case '[':
                     {
                         // An array was found.
-                        int arrayOrigin = idx;
-                        List<object> obj = new List<object>();
+                        var arrayOrigin = idx;
+                        var obj = new List<object>();
                         bool isEmpty = true, hasSeparator = false;
 
                         for (idx++; idx < str.Length;)
@@ -406,8 +400,8 @@ namespace eduJSON
                 case '{':
                     {
                         // An object has been found.
-                        int objectOrigin = idx;
-                        Dictionary<string, object> obj = new Dictionary<string, object>();
+                        var objectOrigin = idx;
+                        var obj = new Dictionary<string, object>();
                         bool isEmpty = true, hasSeparator = false;
 
                         for (idx++; idx < str.Length;)
@@ -425,8 +419,8 @@ namespace eduJSON
                             }
                             else if (isEmpty || hasSeparator)
                             {
-                                int identifierOrigin = idx;
-                                object key = ParseIdentifier(str, ref idx);
+                                var identifierOrigin = idx;
+                                var key = ParseIdentifier(str, ref idx);
                                 if (key != null)
                                 {
                                     // An element key has been found.
@@ -484,7 +478,7 @@ namespace eduJSON
         /// <remarks>C/C++ style comments are also treated as white-space and skipped.</remarks>
         private static void SkipSpace(string str, ref int idx)
         {
-            for (int len = str.Length; idx < len;)
+            for (var len = str.Length; idx < len;)
             {
                 if (char.IsWhiteSpace(str[idx]))
                 {
@@ -541,7 +535,7 @@ namespace eduJSON
         /// <summary>
         /// Safely gets a value with name from the dictionary
         /// </summary>
-        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
+        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="long"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
         /// <param name="dict">Dictionary of name/value pairs</param>
         /// <param name="name">Name of the value</param>
         /// <param name="value">The value</param>
@@ -549,7 +543,7 @@ namespace eduJSON
         /// <exception cref="InvalidParameterTypeException">Wrong type of value</exception>
         public static bool GetValue<T>(Dictionary<string, object> dict, string name, out T value)
         {
-            if (!dict.TryGetValue(name, out object obj))
+            if (!dict.TryGetValue(name, out var obj))
             {
                 value = default;
                 return false;
@@ -565,7 +559,7 @@ namespace eduJSON
         /// <summary>
         /// Safely gets a value with name from the dictionary
         /// </summary>
-        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
+        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="long"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
         /// <param name="dict">Dictionary of name/value pairs</param>
         /// <param name="name">Name of the value</param>
         /// <returns>The value; or throws when <paramref name="name"/> not found in <paramref name="dict"/> or not of type <typeparamref name="T"/>.</returns>
@@ -573,7 +567,7 @@ namespace eduJSON
         /// <exception cref="InvalidParameterTypeException">Wrong type of value</exception>
         public static T GetValue<T>(Dictionary<string, object> dict, string name)
         {
-            if (!dict.TryGetValue(name, out object obj))
+            if (!dict.TryGetValue(name, out var obj))
                 throw new MissingParameterException(name);
 
             if (obj.GetType() != typeof(T))
@@ -585,7 +579,7 @@ namespace eduJSON
         /// <summary>
         /// Safely gets a named dictionary of values
         /// </summary>
-        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
+        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="long"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
         /// <param name="dict">Dictionary of name/value pairs</param>
         /// <param name="name">Name of the dictionary</param>
         /// <param name="value">The dictionary</param>
@@ -596,7 +590,7 @@ namespace eduJSON
         {
             value.Clear();
 
-            if (!dict.TryGetValue(name, out object obj))
+            if (!dict.TryGetValue(name, out var obj))
                 return false;
 
             if (obj is T objT)
@@ -620,7 +614,7 @@ namespace eduJSON
         /// <summary>
         /// Safely gets a named dictionary of values
         /// </summary>
-        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="int"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
+        /// <typeparam name="T">Requested value type. Can be: <see cref="bool"/>, <see cref="long"/>, <see cref="double"/>, <see cref="string"/>, <c>Dictionary&lt;string, object&gt;</c> or <c>List&gt;object&lt;</c></typeparam>
         /// <param name="dict">Dictionary of name/value pairs</param>
         /// <param name="name">Name of the dictionary</param>
         /// <returns>The dictionary</returns>
@@ -629,7 +623,7 @@ namespace eduJSON
         /// <remarks>When the value is not a dictionary, but a single <typeparamref name="T"/> value, a dictionary with &gt;"", value&lt; element is returned. This ambiguates use when <typeparamref name="Dictionary&lt;string, object&gt;"/> type is used.</remarks>
         public static Dictionary<string, T> GetDictionary<T>(Dictionary<string, object> dict, string name)
         {
-            if (!dict.TryGetValue(name, out object obj))
+            if (!dict.TryGetValue(name, out var obj))
                 throw new MissingParameterException(name);
 
             var value = new Dictionary<string, T>();

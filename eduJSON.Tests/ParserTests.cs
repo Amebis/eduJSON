@@ -30,9 +30,9 @@ namespace eduJSON.Tests
         [TestMethod()]
         public void ParseIntegerTest()
         {
-            Assert.AreEqual(1234, Parser.Parse(" 1234 "), "Integer not recognized");
-            Assert.AreEqual(1234, Parser.Parse(" +1234 "), "Integer with an explicit \"+\" sign not recognized (JSON EX)");
-            Assert.AreEqual(-1234, Parser.Parse(" -1234 "), "Negative integer not recognized");
+            Assert.AreEqual(1234L, Parser.Parse(" 1234 "), "Integer not recognized");
+            Assert.AreEqual(1234L, Parser.Parse(" +1234 "), "Integer with an explicit \"+\" sign not recognized (JSON EX)");
+            Assert.AreEqual(-1234L, Parser.Parse(" -1234 "), "Negative integer not recognized");
         }
 
         [TestMethod()]
@@ -59,11 +59,11 @@ namespace eduJSON.Tests
             Assert.AreEqual(true, objDict["key1"], "Child element mismatch");
             CollectionAssert.AreEqual(new List<object>
                 {
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
+                    1L,
+                    2L,
+                    3L,
+                    4L,
+                    5L
                 }, (List<object>)objDict["key2"], "Child element mismatch");
             CollectionAssert.AreEqual(new Dictionary<string, object>
                 {
@@ -95,17 +95,17 @@ namespace eduJSON.Tests
             // Function result variant
             Assert.AreEqual(Parser.GetValue<string>(obj, "k_string"), "abc");
             Assert.AreEqual(Parser.GetValue<bool>(obj, "k_bool"), true);
-            Assert.AreEqual(Parser.GetValue<int>(obj, "k_int"), 123);
-            CollectionAssert.AreEqual(Parser.GetValue<List<object>>(obj, "k_array"), new List<object>() { 1, 2, 3 });
+            Assert.AreEqual(Parser.GetValue<long>(obj, "k_int"), 123);
+            CollectionAssert.AreEqual(Parser.GetValue<List<object>>(obj, "k_array"), new List<object>() { 1L, 2L, 3L });
             CollectionAssert.AreEqual(Parser.GetValue<Dictionary<string, object>>(obj, "k_dict"), new Dictionary<string, object>());
 
             Assert.ThrowsException<MissingParameterException>(() => Parser.GetValue<string>(obj, "foobar"));
-            Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetValue<int>(obj, "k_string"));
+            Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetValue<long>(obj, "k_string"));
 
             // Variable reference variant
             Assert.IsTrue(Parser.GetValue(obj, "k_string", out string val_string) && val_string == "abc");
             Assert.IsTrue(Parser.GetValue(obj, "k_bool", out bool val_bool) && val_bool == true);
-            Assert.IsTrue(Parser.GetValue(obj, "k_int", out int val_int) && val_int == 123);
+            Assert.IsTrue(Parser.GetValue(obj, "k_int", out long val_int) && val_int == 123);
             Assert.IsTrue(Parser.GetValue(obj, "k_array", out List<object> val_array)/* && val_array.Equals(new List<object>() { 1, 2, 3 })*/);
             Assert.IsTrue(Parser.GetValue(obj, "k_dict", out Dictionary<string, object> val_dict)/* && val_dict.Equals(new Dictionary<string, object>())*/);
 
@@ -122,7 +122,7 @@ namespace eduJSON.Tests
             {
                 var aaa = new Dictionary<string, string>();
                 Assert.IsFalse(Parser.GetDictionary(obj, "aaa", aaa));
-                var key1_int = new Dictionary<string, int>();
+                var key1_int = new Dictionary<string, long>();
                 Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetDictionary(obj, "key1", key1_int));
                 var key1 = new Dictionary<string, string>();
                 Assert.IsTrue(Parser.GetDictionary(obj, "key1", key1));
@@ -134,7 +134,7 @@ namespace eduJSON.Tests
 
             {
                 Assert.ThrowsException<MissingParameterException>(() => Parser.GetDictionary<string>(obj, "aaa"));
-                Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetDictionary<int>(obj, "key1"));
+                Assert.ThrowsException<InvalidParameterTypeException>(() => Parser.GetDictionary<long>(obj, "key1"));
                 var key1 = Parser.GetDictionary<string>(obj, "key1");
                 Assert.IsTrue(key1[""] == "<language independent>");
                 var key2 = Parser.GetDictionary<string>(obj, "key2");
