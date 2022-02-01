@@ -53,8 +53,8 @@ namespace eduJSON.Tests
         public void ParseStructTest()
         {
             // CollectionAssert.AreEqual() does not work for sub-collections; Check manually.
-            object obj = Parser.Parse("{ \"key1\" : true , \"key2\" : [ 1, 2, 3, 4, 5], \"key3\" : { \"k1\": \"test1\", k2:\"test2\"}}");
-            Dictionary<string, object> objDict = (Dictionary<string, object>)obj;
+            var obj = Parser.Parse("{ \"key1\" : true , \"key2\" : [ 1, 2, 3, 4, 5], \"key3\" : { \"k1\": \"test1\", k2:\"test2\"}}");
+            var objDict = (Dictionary<string, object>)obj;
             Assert.AreEqual(3, objDict.Count, "Incorrect number of child elements");
             Assert.AreEqual(true, objDict["key1"], "Child element mismatch");
             CollectionAssert.AreEqual(new List<object>
