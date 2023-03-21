@@ -350,32 +350,94 @@ namespace eduJSON
                     return obj;
             }
 
-            switch (str[idx])
+            if (idx < str.Length && str[idx] == '[')
             {
-                case '[':
+                // An array was found.
+                var arrayOrigin = idx;
+                var obj = new List<object>();
+                bool isEmpty = true, hasSeparator = false;
+
+                for (idx++; idx < str.Length;)
+                {
+                    ct.ThrowIfCancellationRequested();
+
+                    // Skip leading spaces and comments.
+                    SkipSpace(str, ref idx);
+
+                    if (idx < str.Length && str[idx] == ']')
                     {
-                        // An array was found.
-                        var arrayOrigin = idx;
-                        var obj = new List<object>();
-                        bool isEmpty = true, hasSeparator = false;
+                        // This is the end.
+                        idx++;
+                        return obj;
+                    }
+                    else if (isEmpty || hasSeparator)
+                    {
+                        // Analyse value recursively, and add it.
+                        obj.Add(ParseValue(str, ref idx, ct));
+                        isEmpty = false;
 
-                        for (idx++; idx < str.Length;)
+                        // Skip trailing spaces and comments.
+                        SkipSpace(str, ref idx);
+
+                        if (idx < str.Length && str[idx] == ',')
                         {
-                            ct.ThrowIfCancellationRequested();
+                            // A separator has been found. Skip it.
+                            idx++;
+                            hasSeparator = true;
+                        }
+                        else
+                            hasSeparator = false;
+                    }
+                    else
+                        throw new MissingSeparatorOrClosingParenthesisException("]", str, idx);
+                }
 
-                            // Skip leading spaces and comments.
+                throw new MissingClosingParenthesisException("]", str, arrayOrigin);
+            }
+
+            if (idx < str.Length && str[idx] == '{')
+            {
+                // An object has been found.
+                var objectOrigin = idx;
+                var obj = new Dictionary<string, object>();
+                bool isEmpty = true, hasSeparator = false;
+
+                for (idx++; idx < str.Length;)
+                {
+                    ct.ThrowIfCancellationRequested();
+
+                    // Skip leading spaces and comments.
+                    SkipSpace(str, ref idx);
+
+                    if (idx < str.Length && str[idx] == '}')
+                    {
+                        // This is the end.
+                        idx++;
+                        return obj;
+                    }
+                    else if (isEmpty || hasSeparator)
+                    {
+                        var identifierOrigin = idx;
+                        var key = ParseIdentifier(str, ref idx);
+                        if (key != null)
+                        {
+                            // An element key has been found.
+                            if (obj.ContainsKey((string)key))
+                                throw new DuplicateElementException((string)key, str, identifierOrigin);
+
+                            // Skip trailing spaces and comments.
                             SkipSpace(str, ref idx);
 
-                            if (idx < str.Length && str[idx] == ']')
+                            if (idx < str.Length && str[idx] == ':')
                             {
-                                // This is the end.
+                                // An key:value separator found.
                                 idx++;
-                                return obj;
-                            }
-                            else if (isEmpty || hasSeparator)
-                            {
+
+                                // Skip leading spaces and comments.
+                                SkipSpace(str, ref idx);
+
                                 // Analyse value recursively, and add it.
-                                obj.Add(ParseValue(str, ref idx, ct));
+                                obj.Add((string)key, ParseValue(str, ref idx, ct));
                                 isEmpty = false;
 
                                 // Skip trailing spaces and comments.
@@ -391,80 +453,15 @@ namespace eduJSON
                                     hasSeparator = false;
                             }
                             else
-                                throw new MissingSeparatorOrClosingParenthesisException("]", str, idx);
+                                throw new MissingSeparatorException(str, idx);
                         }
-
-                        throw new MissingClosingParenthesisException("]", str, arrayOrigin);
+                        else
+                            throw new InvalidIdentifier(str, idx);
                     }
-
-                case '{':
-                    {
-                        // An object has been found.
-                        var objectOrigin = idx;
-                        var obj = new Dictionary<string, object>();
-                        bool isEmpty = true, hasSeparator = false;
-
-                        for (idx++; idx < str.Length;)
-                        {
-                            ct.ThrowIfCancellationRequested();
-
-                            // Skip leading spaces and comments.
-                            SkipSpace(str, ref idx);
-
-                            if (idx < str.Length && str[idx] == '}')
-                            {
-                                // This is the end.
-                                idx++;
-                                return obj;
-                            }
-                            else if (isEmpty || hasSeparator)
-                            {
-                                var identifierOrigin = idx;
-                                var key = ParseIdentifier(str, ref idx);
-                                if (key != null)
-                                {
-                                    // An element key has been found.
-                                    if (obj.ContainsKey((string)key))
-                                        throw new DuplicateElementException((string)key, str, identifierOrigin);
-
-                                    // Skip trailing spaces and comments.
-                                    SkipSpace(str, ref idx);
-
-                                    if (idx < str.Length && str[idx] == ':')
-                                    {
-                                        // An key:value separator found.
-                                        idx++;
-
-                                        // Skip leading spaces and comments.
-                                        SkipSpace(str, ref idx);
-
-                                        // Analyse value recursively, and add it.
-                                        obj.Add((string)key, ParseValue(str, ref idx, ct));
-                                        isEmpty = false;
-
-                                        // Skip trailing spaces and comments.
-                                        SkipSpace(str, ref idx);
-
-                                        if (idx < str.Length && str[idx] == ',')
-                                        {
-                                            // A separator has been found. Skip it.
-                                            idx++;
-                                            hasSeparator = true;
-                                        }
-                                        else
-                                            hasSeparator = false;
-                                    }
-                                    else
-                                        throw new MissingSeparatorException(str, idx);
-                                }
-                                else
-                                    throw new InvalidIdentifier(str, idx);
-                            }
-                            else
-                                throw new MissingSeparatorOrClosingParenthesisException("}", str, idx);
-                        }
-                        throw new MissingClosingParenthesisException("}", str, objectOrigin);
-                    }
+                    else
+                        throw new MissingSeparatorOrClosingParenthesisException("}", str, idx);
+                }
+                throw new MissingClosingParenthesisException("}", str, objectOrigin);
             }
 
             throw new UnknownValueException(str, idx);
