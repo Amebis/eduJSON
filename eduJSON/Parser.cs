@@ -546,8 +546,16 @@ namespace eduJSON
                 return false;
             }
 
-            if (obj.GetType() != typeof(T))
-                throw new InvalidParameterTypeException(name, typeof(T), obj.GetType());
+            Type type = typeof(T);
+            if (obj == null)
+            {
+                if (type.IsValueType && Nullable.GetUnderlyingType(type) == null)
+                    throw new InvalidParameterTypeException(name, type, obj.GetType());
+                value = default;
+                return true;
+            }
+            if (obj.GetType() != type)
+                throw new InvalidParameterTypeException(name, type, obj.GetType());
 
             value = (T)obj;
             return true;
@@ -567,8 +575,15 @@ namespace eduJSON
             if (!dict.TryGetValue(name, out var obj))
                 throw new MissingParameterException(name);
 
-            if (obj.GetType() != typeof(T))
-                throw new InvalidParameterTypeException(name, typeof(T), obj.GetType());
+            Type type = typeof(T);
+            if (obj == null)
+            {
+                if (type.IsValueType && Nullable.GetUnderlyingType(type) == null)
+                    throw new InvalidParameterTypeException(name, type, obj.GetType());
+                return default;
+            }
+            if (obj.GetType() != type)
+                throw new InvalidParameterTypeException(name, type, obj.GetType());
 
             return (T)obj;
         }
@@ -596,8 +611,9 @@ namespace eduJSON
             {
                 foreach (var el in objDict)
                 {
-                    if (el.Value.GetType() != typeof(T))
-                        throw new InvalidParameterTypeException(name + "/" + el.Key, typeof(T), el.Value.GetType());
+                    var type = typeof(T);
+                    if (el.Value.GetType() != type)
+                        throw new InvalidParameterTypeException(name + "/" + el.Key, type, el.Value.GetType());
 
                     value.Add(el.Key, (T)el.Value);
                 }
@@ -630,8 +646,9 @@ namespace eduJSON
             {
                 foreach (var el in objDict)
                 {
-                    if (el.Value.GetType() != typeof(T))
-                        throw new InvalidParameterTypeException(name + "/" + el.Key, typeof(T), el.Value.GetType());
+                    var type = typeof(T);
+                    if (el.Value.GetType() != type)
+                        throw new InvalidParameterTypeException(name + "/" + el.Key, type, el.Value.GetType());
                     value.Add(el.Key, (T)el.Value);
                 }
             }
