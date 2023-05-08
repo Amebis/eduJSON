@@ -538,7 +538,7 @@ namespace eduJSON
         /// <param name="value">The value</param>
         /// <returns><c>true</c> when <paramref name="name"/> found; <c>false</c> otherwise; throws when <paramref name="name"/> not of type <typeparamref name="T"/>.</returns>
         /// <exception cref="InvalidParameterTypeException">Wrong type of value</exception>
-        public static bool GetValue<T>(Dictionary<string, object> dict, string name, out T value)
+        public static bool GetValue<T>(IReadOnlyDictionary<string, object> dict, string name, out T value)
         {
             if (!dict.TryGetValue(name, out var obj))
             {
@@ -570,7 +570,7 @@ namespace eduJSON
         /// <returns>The value; or throws when <paramref name="name"/> not found in <paramref name="dict"/> or not of type <typeparamref name="T"/>.</returns>
         /// <exception cref="MissingParameterException">Value not found</exception>
         /// <exception cref="InvalidParameterTypeException">Wrong type of value</exception>
-        public static T GetValue<T>(Dictionary<string, object> dict, string name)
+        public static T GetValue<T>(IReadOnlyDictionary<string, object> dict, string name)
         {
             if (!dict.TryGetValue(name, out var obj))
                 throw new MissingParameterException(name);
@@ -598,7 +598,7 @@ namespace eduJSON
         /// <returns><c>true</c> when <paramref name="name"/> found; <c>false</c> otherwise.</returns>
         /// <exception cref="InvalidParameterTypeException">Value is not of type <typeparamref name="T"/> or <typeparamref name="Dictionary&lt;string, object&gt;"/> or dictionary items are not of type <typeparamref name="T"/></exception>
         /// <remarks>When the value is not a dictionary, but a single <typeparamref name="T"/> value, a dictionary with &lt;"", value&gt; element is returned. This ambiguates use when <typeparamref name="Dictionary&lt;string, object&gt;"/> type is used.</remarks>
-        public static bool GetDictionary<T>(Dictionary<string, object> dict, string name, Dictionary<string, T> value)
+        public static bool GetDictionary<T>(IReadOnlyDictionary<string, object> dict, string name, IDictionary<string, T> value)
         {
             value.Clear();
 
@@ -634,7 +634,7 @@ namespace eduJSON
         /// <exception cref="MissingParameterException">Value not found</exception>
         /// <exception cref="InvalidParameterTypeException">Value is not of type <typeparamref name="T"/> or <typeparamref name="Dictionary&lt;string, object&gt;"/> or dictionary items are not of type <typeparamref name="T"/></exception>
         /// <remarks>When the value is not a dictionary, but a single <typeparamref name="T"/> value, a dictionary with &lt;"", value&gt; element is returned. This ambiguates use when <typeparamref name="Dictionary&lt;string, object&gt;"/> type is used.</remarks>
-        public static Dictionary<string, T> GetDictionary<T>(Dictionary<string, object> dict, string name)
+        public static Dictionary<string, T> GetDictionary<T>(IReadOnlyDictionary<string, object> dict, string name)
         {
             if (!dict.TryGetValue(name, out var obj))
                 throw new MissingParameterException(name);
